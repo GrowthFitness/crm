@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -17,12 +18,12 @@
 
     *{box-sizing:border-box}
     html,body{height:100%;overflow:hidden}
-    body{
-      margin:0;
-      background:linear-gradient(180deg,var(--bg),var(--bg2) 60%,var(--bg));
-      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      color:var(--text);
-    }
+  body{
+    margin:0;
+    background:linear-gradient(180deg,var(--bg),var(--bg2) 60%,var(--bg));
+    font-family:"Noto Sans Georgian", Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color:var(--text);
+  }
 
     .app{display:flex;flex-direction:column;height:100%}
 
@@ -87,6 +88,15 @@
       color:var(--text);
     }
     .menu-panel button:hover, .menu-panel label:hover{border-color:#2a2a2a;background:#101010}
+#resetLeadsBtn{
+  color:#fca5a5;
+}
+
+#resetLeadsBtn:hover{
+  border-color:rgba(239,68,68,.25);
+  background:#140c0c;
+  color:#fecaca;
+}
     .file-input{display:none}
 
     .kanban{
@@ -104,6 +114,26 @@
     .kanban::-webkit-scrollbar-track{background:#121212;border-radius:10px}
     .kanban::-webkit-scrollbar-thumb{background:var(--accent);border-radius:10px}
 
+  .add-stage-card{
+    width:280px;
+    min-width:280px;
+    flex:0 0 280px;
+    height:56px;
+    margin-top:0;
+    border-radius:16px;
+    border:1px dashed #4b5563;
+    background:rgba(255,255,255,.04);
+    color:#9ca3af;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .add-stage-card:hover{
+    background:rgba(255,255,255,.08);
+    color:#ffffff;
+    border-color:#6b7280;
+  }
     .column{
       width:280px;
       min-width:280px;
@@ -116,34 +146,91 @@
       max-height:calc(100% - 40px);
     }
 
-    .col-header{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding:12px;
-      border-bottom:1px solid var(--border);
-      user-select:none;
-      cursor:grab;
-    }
+  .col-header{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 12px 20px 12px;
+    border-bottom:1px solid var(--border);
+    user-select:none;
+    cursor:grab;
+  }
     .col-header:active{cursor:grabbing}
 
     .col-dot{width:10px;height:10px;border-radius:50%;cursor:pointer}
     .col-title{font-weight:800;font-size:14px;cursor:text}
-    .col-count{margin-left:auto;color:var(--muted);font-size:12px}
+    .col-count{
+    position:absolute;
+    left:18px;
+    top:36px;
+    font-size:12px;
+    color:#9ca3af;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .15s ease;
+  }
 
-    .col-actions{display:flex;align-items:center;gap:6px;margin-left:6px}
+.col-header:hover .col-count{
+  opacity:1;
+}
+   .col-actions{
+    position:absolute;
+    top:10px;
+    right:10px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
 
     .col-btn{
-      width:28px;height:28px;
+      width:28px;
+      height:28px;
       border-radius:10px;
       border:1px solid transparent;
       background:transparent;
       color:var(--muted);
       cursor:pointer;
-      display:inline-flex;align-items:center;justify-content:center;
-      font-weight:900;line-height:1;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:900;
+      line-height:1;
       padding:0;
     }
+
+    .col-menu{
+      position:absolute;
+      top:34px;
+      right:0;
+      min-width:140px;
+      background:#141414;
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:6px;
+      box-shadow:0 16px 40px rgba(0,0,0,.45);
+      flex-direction:column;
+      gap:4px;
+      z-index:20;
+    }
+
+    .col-menu button{
+      width:100%;
+      background:transparent;
+      border:1px solid transparent;
+      color:var(--text);
+      text-align:left;
+      padding:8px 10px;
+      border-radius:8px;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .col-menu button:hover{
+      background:#101010;
+      border-color:#2a2a2a;
+    }
+
     .col-btn:hover{border-color:rgba(255,255,255,.08);color:var(--text)}
     .col-btn.danger:hover{border-color:rgba(239,68,68,.25);color:#fca5a5}
 
@@ -154,7 +241,7 @@
       border:1px solid var(--border);
       border-radius:14px;
       padding:10px;
-      cursor:grab;
+      cursor:pointer;
       box-shadow:0 4px 14px rgba(0,0,0,.22);
       transition:transform .08s ease;
       color:var(--text);
@@ -226,6 +313,52 @@
       color:#000;
     }
 
+.chip.temperature{
+  font-weight:900;
+  border-width:1px;
+}
+
+.chip.temperature.lead{
+  background:rgba(156,163,175,.14);
+  border-color:rgba(156,163,175,.35);
+  color:#d1d5db;
+}
+
+.chip.temperature.agendado{
+  background:rgba(245,158,11,.14);
+  border-color:rgba(245,158,11,.35);
+  color:#fbbf24;
+}
+
+.chip.temperature.experimental{
+  background:rgba(59,130,246,.14);
+  border-color:rgba(59,130,246,.35);
+  color:#60a5fa;
+}
+
+.chip.task{
+  background:#1f2937;
+  border-color:rgba(255,255,255,.10);
+  color:#ffffff;
+  font-size:11px;
+  font-weight:800;
+}
+
+.task-overdue{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:#ef4444;
+  font-size:12px;
+  font-weight:700;
+  margin-top:2px;
+  line-height:1;
+}
+
+.task-overdue-icon{
+  font-size:12px;
+  line-height:1;
+}
     .footer{padding:10px 12px}
 
     .add-lead-btn{
@@ -252,19 +385,30 @@
     .metrics-row{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:12px}
 
     .metric-card{background:#101010;border:1px solid var(--border);border-radius:16px;padding:14px}
-    .metric-card h3{margin:0;color:var(--muted);font-size:12px;font-weight:800;letter-spacing:.2px}
+    .metric-card h3{
+  margin:0;
+  padding-left:8px;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.2px;
+}
+
     .metric-value{margin-top:10px;font-size:26px;font-weight:900}
 
-    .metric-input{
-      margin-top:10px;
-      width:100%;
-      background:#0f0f0f;
-      border:1px solid #2a2a2a;
-      border-radius:12px;
-      padding:10px 12px;
-      font-weight:800;
-      color:var(--text);
-    }
+  .metric-input{
+  margin-top:10px;
+  width:100%;
+  background:#0f0f0f;
+  border:1px solid #2a2a2a;
+  border-radius:12px;
+  padding:12px 14px;
+  font-weight:900;
+  font-size:26px;
+  line-height:1.1;
+  color:var(--text);
+}
+
 
     .panel{background:#101010;border:1px solid var(--border);border-radius:16px;padding:14px}
     .panel h4{margin:0 0 12px 0;font-size:12px;color:var(--muted);font-weight:900;letter-spacing:.2px}
@@ -275,17 +419,684 @@
     .funnel-name{font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .funnel-sub{color:var(--muted);font-size:12px}
     .funnel-right{font-weight:900;color:var(--accent)}
+.stage-cards-row{
+  grid-template-columns:repeat(4,minmax(220px,1fr));
+}
+
+.stage-card{
+  background:#101010;
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:18px 18px 16px 18px;
+  min-height:170px;
+  overflow:hidden;
+}
+
+.stage-card-accent{
+  display:none;
+}
+
+.stage-card-title{
+  font-size:14px;
+  font-weight:800;
+  color:var(--muted);
+  margin-bottom:10px;
+}
+
+.stage-card-value{
+  font-size:38px;
+  font-weight:900;
+  line-height:1;
+  color:var(--text);
+}
+
+.stage-card-sub{
+  margin-top:8px;
+  font-size:14px;
+  color:var(--muted);
+  font-weight:700;
+}
+
+.stage-card-bottom{
+  margin-top:18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.stage-card-conv{
+  font-size:24px;
+  font-weight:900;
+  color:var(--text);
+}
+
+.stage-card-progress{
+  margin-top:14px;
+  height:10px;
+  background:#1f1f1f;
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.stage-card-progress-bar{
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:var(--accent);
+}
+
+.main-funnel-panel{
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.main-funnel-header{
+  display:flex;
+  align-items:center;
+  margin-bottom:2px;
+}
+
+.main-funnel-title-wrap{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  width:100%;
+}
+
+.main-funnel-bullet{
+  width:12px;
+  height:12px;
+  border-radius:999px;
+  background:#d9f542;
+  flex:0 0 12px;
+}
+
+.main-funnel-title{
+  margin:0;
+  font-size:18px;
+  line-height:1;
+  font-weight:900;
+  color:#d9f542;
+  letter-spacing:.02em;
+}
+
+.main-funnel-line{
+  height:1px;
+  flex:1;
+  background:rgba(255,255,255,.08);
+}
+
+.activation-panel{
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.activation-panel-header{
+  display:flex;
+  align-items:center;
+}
+
+.activation-panel-title-wrap{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  width:100%;
+}
+
+.origin-panel-bullet{
+  width:12px;
+  height:12px;
+  border-radius:999px;
+  background:#C8F169;
+  flex:0 0 12px;
+  display:block;
+  margin-top:0;
+}
+
+.activation-panel-bullet{
+  width:12px;
+  height:12px;
+  border-radius:999px;
+  background:#8b5cf6;
+  flex:0 0 12px;
+  display:block;
+  margin-top:0;
+}
+
+.activation-panel-title{
+  margin:0;
+  font-size:18px;
+  line-height:1;
+  font-weight:900;
+  color:#8b5cf6;
+  letter-spacing:.02em;
+}
+
+.activation-panel-line{
+  height:1px;
+  flex:1;
+  background:rgba(255,255,255,.08);
+}
+
+.activation-strip{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(220px,1fr));
+  border:1px solid #2a2a2a;
+  border-radius:22px;
+  overflow:hidden;
+  background:linear-gradient(180deg,#0f0f0f,#0c0c0c);
+}
+
+.activation-strip-card{
+  padding:24px 28px 22px 28px;
+  min-height:190px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  border-right:1px solid #242424;
+}
+
+.activation-strip-card:last-child{
+  border-right:none;
+}
+
+.activation-strip-label{
+  font-size:14px;
+  font-weight:800;
+  color:#d1d5db;
+}
+
+.activation-strip-value{
+  font-size:44px;
+  line-height:1;
+  font-weight:900;
+  color:#ffffff;
+}
+
+.activation-strip-bar{
+  height:10px;
+  border-radius:999px;
+  background:#1d1d1d;
+  overflow:hidden;
+  width:100%;
+}
+
+.activation-strip-bar-fill{
+  height:100%;
+  width:68%;
+  border-radius:999px;
+}
+
+.activation-strip-bar-fill.is-lime{
+  background:#d9f542;
+}
+
+.activation-strip-bar-fill.is-blue{
+  background:#3b82f6;
+}
+
+.activation-strip-bar-fill.is-purple{
+  background:#a855f7;
+}
+
+.activation-strip-bar-fill.is-green{
+  background:#84cc16;
+}
+
+.activation-detail-bar-fill.is-lime{
+  background:#d9f542;
+}
+
+.activation-detail-bar-fill.is-blue{
+  background:#3b82f6;
+}
+
+.activation-detail-bar-fill.is-purple{
+  background:#a855f7;
+}
+
+.activation-strip-sub{
+  font-size:13px;
+  line-height:1.35;
+  color:#9ca3af;
+  min-height:36px;
+}
+
+.activation-summary-row{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  padding:2px 4px 0 4px;
+  text-align:center;
+  font-size:15px;
+  color:#d1d5db;
+}
+
+.activation-summary-row strong{
+  color:#ffffff;
+  font-weight:900;
+}
+
+.activation-summary-dot{
+  color:#6b7280;
+}
+
+@media (max-width:1200px){
+  .activation-strip{
+    grid-template-columns:repeat(2,minmax(220px,1fr));
+  }
+
+  .activation-strip-card:nth-child(2){
+    border-right:none;
+  }
+
+  .activation-strip-card:nth-child(1),
+  .activation-strip-card:nth-child(2){
+    border-bottom:1px solid #242424;
+  }
+}
+
+@media (max-width:760px){
+  .activation-strip{
+    grid-template-columns:1fr;
+  }
+
+  .activation-strip-card{
+    border-right:none;
+    border-bottom:1px solid #242424;
+  }
+
+  .activation-strip-card:last-child{
+    border-bottom:none;
+  }
+
+  .activation-strip-value{
+    font-size:38px;
+  }
+
+  .activation-summary-row{
+    justify-content:flex-start;
+    text-align:left;
+  }
+
+  .activation-summary-dot{
+    display:none;
+  }
+}
+
+.activation-details-toggle-wrap{
+  display:flex;
+  justify-content:center;
+  padding:4px 0 6px 0;
+}
+
+.activation-details-btn{
+  background:#141414;
+  border:1px solid #2a2a2a;
+  color:#ffffff;
+  border-radius:14px;
+  padding:12px 22px;
+  font-weight:800;
+  font-size:14px;
+}
+
+.activation-details-btn:hover{
+  border-color:#3a3a3a;
+  background:#171717;
+}
+
+.activation-details-panel{
+  border-top:1px solid rgba(255,255,255,.08);
+  padding-top:18px;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.activation-details-header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  width:100%;
+  min-height:12px;
+}
+
+.origin-details-header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  width:100%;
+  min-height:12px;
+}
+
+h4.activation-details-title{
+  margin:0;
+  font-size:16px;
+  line-height:1;
+  font-weight:900;
+  color:#8b5cf6;
+  letter-spacing:.02em;
+}
+
+h4.origin-details-title{
+  margin:0;
+  font-size:16px;
+  line-height:1;
+  font-weight:900;
+  color:#C8F169;
+  letter-spacing:.02em;
+}
+
+.activation-details-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(240px,1fr));
+  gap:18px;
+}
+
+.activation-detail-block{
+  background:#111111;
+  border:1px solid #252525;
+  border-radius:18px;
+  padding:18px;
+  min-height:240px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.activation-detail-title{
+  font-size:15px;
+  font-weight:900;
+  color:#ffffff;
+}
+
+.activation-detail-rows{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.activation-detail-row{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:12px;
+}
+
+.activation-detail-label{
+  font-size:14px;
+  font-weight:700;
+  color:#d1d5db;
+  min-width:110px;
+}
+
+.activation-detail-bar{
+  height:10px;
+  background:#1d1d1d;
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.activation-detail-bar-fill{
+  height:100%;
+  border-radius:999px;
+}
+
+.activation-detail-value{
+  font-size:13px;
+  font-weight:900;
+  color:#ffffff;
+  min-width:22px;
+  text-align:right;
+}
+
+.activation-value-box{
+  background:#111111;
+  border:1px solid #252525;
+  border-radius:18px;
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.activation-value-title{
+  font-size:15px;
+  font-weight:900;
+  color:#ffffff;
+}
+
+.activation-value-total{
+  font-size:28px;
+  font-weight:900;
+  color:#ffffff;
+}
+
+.activation-value-sub{
+  font-size:14px;
+  color:#d1d5db;
+}
+
+.activation-value-sub strong{
+  color:#ffffff;
+}
+
+@media (max-width:1100px){
+  .activation-details-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+.origin-details-grid-wrap{
+  background:#111111;
+  border:1px solid #252525;
+  border-radius:18px;
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:2px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.02);
+  width:100%;
+}
+
+.origin-grid{
+  display:grid;
+  grid-template-columns:repeat(7,minmax(0,1fr));
+  gap:10px;
+}
+
+.origin-extra-grid{
+  display:grid;
+  grid-template-columns:repeat(7,minmax(0,1fr));
+  gap:10px;
+  margin-top:10px;
+}
+
+.origin-card{
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(17,17,17,1) 45%);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:18px;
+  padding:18px 16px;
+  min-height:210px;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
+  transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+
+.origin-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 24px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.03);
+  border-color:rgba(255,255,255,.18);
+}
+
+.origin-card-title{
+  font-size:15px;
+  font-weight:700;
+  color:#ffffff;
+  line-height:1.2;
+  text-align:center;
+  width:100%;
+  display:block;
+  margin:0 auto;
+}
+
+.origin-card-main{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:14px;
+  flex:1;
+}
+
+.origin-metric-block{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+
+.origin-metric-value{
+  font-size:26px;
+  line-height:1;
+  font-weight:650;
+  color:#dddddd;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:-0.01em;
+}
+
+.origin-metric-label{
+  font-size:11px;
+  font-weight:500;
+  color:#7f7f7f;
+  letter-spacing:.02em;
+}
+
+.origin-metric-divider{
+  width:68%;
+  height:1px;
+  background:rgba(255,255,255,.08);
+  margin:2px auto;
+}
+
+.origin-funnel-list,
+.origin-funnel-row,
+.origin-funnel-label,
+.origin-funnel-value,
+.origin-funnel-divider,
+.origin-conv-list,
+.origin-conv-row,
+.origin-conv-label,
+.origin-conv-value{
+  display:none;
+}
+
+.origin-card.is-fixed{
+  opacity:1;
+  border-color:rgba(255,255,255,.12);
+  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(17,17,17,1) 46%);
+}
+
+.origin-card.is-extra{
+  opacity:1;
+  border-color:rgba(255,255,255,.12);
+  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(17,17,17,1) 46%);
+}
+
+.origin-card-line span{
+  color:var(--muted);
+  font-weight:700;
+}
+@media (max-width:1400px){
+  .origin-grid,
+  .origin-extra-grid{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+}
+
+@media (max-width:1100px){
+  .stage-cards-row{
+    grid-template-columns:repeat(2,minmax(220px,1fr));
+  }
+
+  .origin-grid,
+  .origin-extra-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media (max-width:760px){
+  .stage-cards-row{
+    grid-template-columns:1fr;
+  }
+
+  .origin-grid,
+  .origin-extra-grid{
+    grid-template-columns:1fr;
+  }
+}
+
 
     .modal-backdrop{position:fixed;inset:0;background:rgba(7,10,24,.66);display:none;align-items:center;justify-content:center;z-index:50}
     .modal{width:min(920px,94vw);max-height:88vh;overflow:auto;background:var(--panel);border:1px solid var(--border);border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.4);color:var(--text)}
     .modal header{position:sticky;top:0;background:var(--panel);border-bottom:1px solid var(--border);padding:12px 20px;font-weight:800;cursor:default}
     .modal .body{padding:16px 20px;display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
-    .group{display:flex;flex-direction:column;gap:6px}
-    label{font-size:12px;color:var(--muted)}
-    .modal input, .modal textarea, .modal select{background:#1a1a1a;border:1px solid var(--border);border-radius:10px;color:var(--text);padding:10px 12px;width:100%}
-    .modal textarea{min-height:100px}
-    .modal footer{display:flex;gap:8px;justify-content:flex-end;padding:12px 20px;border-top:1px solid var(--border)}
-    .btn-danger{background:linear-gradient(135deg,var(--danger),#f87171);border:1px solid rgba(255,255,255,.08)}
+        .group{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      margin-bottom:14px;
+    }
+
+  label{
+    display:block;
+    font-size:12px;
+    font-weight:600;
+    color:#9ca3af;
+    margin:0 0 4px 0;
+    padding-left:8px;
+    letter-spacing:.02em;
+    font-family:inherit;
+  }
+
+  .modal input,
+  .modal textarea,
+  .modal select{
+    background:#1a1a1a;
+    border:1px solid var(--border);
+    border-radius:12px;
+    color:#ffffff;
+    padding:10px 12px;
+    width:100%;
+    font-size:14px;
+    font-weight:500;
+    font-family:inherit;
+  }
+
+      #f_source{
+      color:#9ca3af;
+      padding-right:42px;
+      appearance:none;
+      -webkit-appearance:none;
+      -moz-appearance:none;
+      background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 20 20' fill='none'><path d='M5 7.5L10 12.5L15 7.5' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+      background-repeat:no-repeat;
+      background-position:right 16px center;
+      background-size:12px 12px;
+    }
+
+    #f_source option{
+      color:#ffffff;
+    }
 
     .tags-editor{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
     .colors{display:flex;gap:6px}
@@ -297,26 +1108,119 @@
     .timeline li{display:flex;gap:8px;color:var(--text)}
     .dot{width:8px;height:8px;border-radius:50%;margin-top:5px;background:var(--accent)}
 
-    .confirm-btn{
+        .confirm-btn{
       display:inline-flex;
       align-items:center;
       justify-content:center;
       gap:8px;
       border-radius:12px;
-      border:1px solid #2a2a2a;
+      border:1px solid var(--btn);
       background:transparent;
-      color:var(--text);
+      color:var(--btn);
       padding:10px 12px;
-      font-weight:900;
+      font-weight:800;
       letter-spacing:.2px;
       cursor:pointer;
       user-select:none;
     }
-    .confirm-btn:hover{border-color:#3a3a3a}
+    .confirm-btn:hover{
+      border-color:var(--btn);
+      color:var(--btn);
+    }
     .confirm-btn.on{
       background:var(--btn);
-      border-color:rgba(217,245,66,.45);
+      border-color:var(--btn);
       color:#000;
+    }
+
+    .modal footer{
+      display:flex;
+      gap:10px;
+      justify-content:flex-end;
+      align-items:center;
+      padding:16px 20px 18px 20px;
+      border-top:1px solid var(--border);
+    }
+
+.task-due-text{
+  font-size:12px;
+  font-weight:500;
+  color:#9ca3af;
+  white-space:nowrap;
+  padding-left:2px;
+  margin-top:4px;
+}
+
+.task-script-panel{
+  border:1px solid rgba(255,255,255,.08);
+  background:#141414;
+  border-radius:14px;
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.task-script-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.task-script-title{
+  font-size:13px;
+  font-weight:800;
+  color:#ffffff;
+}
+
+.task-script-copy-btn{
+  padding:8px 12px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.task-script-content{
+  white-space:normal;
+  font-size:13px;
+  line-height:1.55;
+  color:#d1d5db;
+  background:transparent;
+  border:none;
+  border-radius:0;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.task-script-trigger-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border-radius:12px;
+  border:1px solid rgba(217,245,66,.22);
+  background:rgba(217,245,66,.06);
+  color:var(--accent);
+  padding:10px 12px;
+  font-weight:800;
+  letter-spacing:.2px;
+  cursor:pointer;
+}
+
+.task-script-trigger-btn:hover{
+  border-color:rgba(217,245,66,.34);
+  background:rgba(217,245,66,.10);
+  color:var(--accent2);
+}
+
+    .modal input::placeholder,
+    .modal textarea::placeholder{
+      color:#7a7a7a;
+      font-size:14px;
+      font-weight:400;
     }
 
     @media (max-width: 1100px){
@@ -326,6 +1230,128 @@
     @media (max-width: 980px){
       .modal .body{grid-template-columns:1fr}
     }
+  /* Ajuste visual do modal */
+
+  label{
+    display:block;
+    font-size:12px;
+    font-weight:600;
+    color:#9ca3af;
+    margin:0 0 4px 0;
+    padding-left:8px;
+    letter-spacing:.02em;
+  }
+
+  .modal input,
+  .modal textarea,
+  .modal select{
+    background:#1a1a1a;
+    border:1px solid var(--border);
+    border-radius:12px;
+    color:#ffffff;
+    padding:10px 12px;
+    width:100%;
+    font-size:14px;
+    font-weight:500;
+  }
+
+  #f_source{
+    color:#ffffff;
+    padding-right:42px;
+    appearance:none;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 20 20' fill='none'><path d='M5 7.5L10 12.5L15 7.5' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat;
+    background-position:right 16px center;
+    background-size:12px 12px;
+  }
+
+  #lessonDateGroup{
+    width:320px;
+  }
+
+.lesson-input-wrap{
+  position:relative;
+  width:100%;
+}
+
+.lesson-preview{
+  position:absolute;
+  left:12px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#ffffff;
+  font-size:14px;
+  font-weight:500;
+  pointer-events:none;
+  z-index:2;
+}
+
+#f_lessonAt{
+  position:relative;
+  z-index:1;
+  color:transparent;
+  font-family:inherit;
+}
+
+#f_lessonAt::-webkit-datetime-edit,
+#f_lessonAt::-webkit-datetime-edit-text,
+#f_lessonAt::-webkit-datetime-edit-month-field,
+#f_lessonAt::-webkit-datetime-edit-day-field,
+#f_lessonAt::-webkit-datetime-edit-year-field,
+#f_lessonAt::-webkit-datetime-edit-hour-field,
+#f_lessonAt::-webkit-datetime-edit-minute-field{
+  color:transparent;
+}
+
+#f_lessonAt:focus{
+  color:#ffffff;
+}
+
+#f_lessonAt:focus::-webkit-datetime-edit,
+#f_lessonAt:focus::-webkit-datetime-edit-text,
+#f_lessonAt:focus::-webkit-datetime-edit-month-field,
+#f_lessonAt:focus::-webkit-datetime-edit-day-field,
+#f_lessonAt:focus::-webkit-datetime-edit-year-field,
+#f_lessonAt:focus::-webkit-datetime-edit-hour-field,
+#f_lessonAt:focus::-webkit-datetime-edit-minute-field{
+  color:#ffffff;
+}
+
+#f_lessonAt:focus + .lesson-preview{
+  display:none;
+}
+
+     #lessonDateGroup{
+    width:calc((100% - 16px) / 3);
+  }
+
+  #lessonDateGroup label{
+    color:#b8b8b8;
+    font-weight:600;
+    white-space:nowrap;
+  }
+
+  #f_lessonAt{
+    width:100%;
+    background:#1a1a1a;
+    border:1px solid var(--border);
+    color:#ffffff;
+    padding:10px 34px 10px 12px;
+  }
+
+  #f_lessonAt:focus{
+    border:1px solid var(--border);
+    outline:none;
+  }
+
+  #f_lessonAt::-webkit-calendar-picker-indicator{
+    filter: invert(1);
+    opacity:1;
+    cursor:pointer;
+  }
+
   </style>
 </head>
 <body>
@@ -339,11 +1365,11 @@
 
       <input id="q" type="search" placeholder="Buscar por nome, tag..." />
 
-      <div class="toolbar">
-        <button type="button" class="primary" id="newLeadBtn">+ Novo Lead</button>
-        <button type="button" id="newStageBtn">+ Coluna</button>
-        <button class="ghost" id="btnPipeline">Pipeline</button>
-        <button class="ghost" id="btnDashboard">Dashboard</button>
+   <div class="toolbar">
+       <button type="button" class="primary" id="newLeadBtn">+ Novo Lead</button>
+       <button class="ghost" id="btnPipeline">Painel</button>
+       <button class="ghost" id="btnDashboard">Dashboard</button>
+       <button class="ghost" id="btnTasks">Tarefas</button>
 
         <div class="menu" id="moreMenu">
           <button class="ghost menu-btn" id="moreBtn" title="Mais">⋯</button>
@@ -358,6 +1384,7 @@
             <label for="importCsvFile">Importar CSV</label>
 
             <button type="button" id="templateCsvBtn">Modelo CSV</button>
+       <button type="button" id="resetLeadsBtn">Resetar leads</button>
           </div>
         </div>
 
@@ -365,21 +1392,86 @@
       </div>
     </header>
 
+    <section id="tasksPanel" style="display:none;position:fixed;top:74px;right:0;bottom:0;width:340px;background:#0f0f0f;border-left:1px solid var(--border);box-shadow:-12px 0 30px rgba(0,0,0,.35);z-index:40;padding:18px 16px;overflow-y:auto">
+      <div style="display:flex;flex-direction:column;gap:14px;height:100%">
+      <div style="display:flex;align-items:center;justify-content:flex-start;gap:10px">
+     <h2 style="margin:0;font-size:14px;font-weight:900;color:var(--text)">Tarefas</h2>
+     <span id="tasksCountBadge" style="display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;padding:0 10px;border-radius:999px;background:var(--btn);color:#000;font-size:13px;font-weight:900">0</span>
+  </div>
+
+        <div id="tasksList" style="display:flex;flex-direction:column;gap:10px;color:var(--muted);font-size:13px">
+          <div>Nenhuma tarefa para hoje.</div>
+        </div>
+      </div>
+    </section>
+
     <main class="kanban" id="kanban"></main>
 
     <section id="dashboard">
       <div class="dash-wrap">
-        <div class="metrics-2rows">
-          <div class="metrics-row" id="metricsRow1">
-            <div class="metric-card"><h3 id="h_lead">Lead</h3><div id="m_lead" class="metric-value">0</div></div>
-            <div class="metric-card"><h3 id="h_ag">Agendado</h3><div id="m_ag" class="metric-value">0</div></div>
-            <div class="metric-card"><h3 id="h_exp">Experimental</h3><div id="m_exp" class="metric-value">0</div></div>
-            <div class="metric-card"><h3 id="h_mat">Matriculado</h3><div id="m_mat" class="metric-value">0</div></div>
-          </div>
+        <div class="panel main-funnel-panel">
+  <div class="metrics-2rows">
+    <div class="main-funnel-header">
+      <div class="main-funnel-title-wrap">
+        <span class="main-funnel-bullet"></span>
+        <h3 class="main-funnel-title">FUNIL PRINCIPAL</h3>
+        <span class="main-funnel-line"></span>
+      </div>
+    </div>
+
+         <div class="metrics-row stage-cards-row" id="metricsRow1">
+  <div class="stage-card" id="card_lead">
+    <div class="stage-card-accent" id="accent_lead"></div>
+   <div class="stage-card-title" id="h_lead">Leads</div>
+    <div class="stage-card-value" id="m_lead">0</div>
+    <div class="stage-card-bottom">
+      <div class="stage-card-conv" id="c_lead">Base</div>
+    </div>
+    <div class="stage-card-progress">
+      <div class="stage-card-progress-bar" id="p_lead"></div>
+    </div>
+  </div>
+
+  <div class="stage-card" id="card_ag">
+  <div class="stage-card-accent" id="accent_ag"></div>
+  <div class="stage-card-title" id="h_ag">Agendamentos</div>
+  <div class="stage-card-value" id="m_ag">0</div>
+  <div class="stage-card-bottom">
+    <div class="stage-card-conv" id="c_ag">0%</div>
+  </div>
+  <div class="stage-card-progress">
+    <div class="stage-card-progress-bar" id="p_ag"></div>
+  </div>
+</div>
+
+  <div class="stage-card" id="card_exp">
+    <div class="stage-card-accent" id="accent_exp"></div>
+    <div class="stage-card-title" id="h_exp">Experimentais</div>
+    <div class="stage-card-value" id="m_exp">0</div>
+    <div class="stage-card-bottom">
+      <div class="stage-card-conv" id="c_exp">0%</div>
+    </div>
+    <div class="stage-card-progress">
+      <div class="stage-card-progress-bar" id="p_exp"></div>
+    </div>
+  </div>
+
+  <div class="stage-card" id="card_mat">
+    <div class="stage-card-accent" id="accent_mat"></div>
+    <div class="stage-card-title" id="h_mat">Matrículas</div>
+    <div class="stage-card-value" id="m_mat">0</div>
+    <div class="stage-card-bottom">
+      <div class="stage-card-conv" id="c_mat">0%</div>
+    </div>
+    <div class="stage-card-progress">
+      <div class="stage-card-progress-bar" id="p_mat"></div>
+    </div>
+  </div>
+</div>
 
           <div class="metrics-row" id="metricsRow2">
             <div class="metric-card">
-              <h3>Investimento em Tráfego</h3>
+              <h3>Investimento em marketing</h3>
               <input id="trafficInput" class="metric-input" inputmode="decimal" placeholder="R$ 0,00" />
             </div>
             <div class="metric-card"><h3>Receita</h3><div id="m_rev" class="metric-value">R$ 0,00</div></div>
@@ -388,10 +1480,127 @@
           </div>
         </div>
 
-        <div class="panel">
-          <h4>Conversão entre etapas</h4>
-          <div id="funnel" class="funnel"></div>
-        </div>
+<div class="panel origin-panel">
+
+  <div class="activation-details-toggle-wrap">
+    <button type="button" id="originDetailsBtn" class="activation-details-btn">
+      Ver detalhes
+    </button>
+  </div>
+
+<div id="originDetailsPanel" class="activation-details-panel" style="display:none">
+
+  <div class="activation-details-header origin-details-header">
+    <span class="origin-panel-bullet"></span>
+    <h4 class="origin-details-title">DETALHAMENTO POR CANAL</h4>
+    <span class="activation-panel-line"></span>
+  </div>
+
+  <div class="origin-details-grid-wrap">
+    <div id="originGrid" class="origin-grid"></div>
+    <div id="originExtraGrid" class="origin-extra-grid"></div>
+  </div>
+
+</div>
+
+</div>
+
+<div class="panel activation-panel">
+
+  <div class="activation-panel-header">
+    <div class="activation-panel-title-wrap">
+      <span class="activation-panel-bullet"></span>
+      <h3 class="activation-panel-title">FUNIL REATIVAÇÃO</h3>
+      <span class="activation-panel-line"></span>
+    </div>
+  </div>
+
+  <div class="activation-strip">
+
+    <div class="activation-strip-card">
+      <div class="activation-strip-label">Base em reativação</div>
+      <div id="activation_base" class="activation-strip-value">0</div>
+      <div class="activation-strip-bar">
+        <div class="activation-strip-bar-fill is-lime" id="activation_bar_base"></div>
+      </div>
+      <div class="activation-strip-sub">Base em reativação</div>
+    </div>
+
+    <div class="activation-strip-card">
+      <div class="activation-strip-label">Tentativas realizadas</div>
+      <div id="activation_attempts" class="activation-strip-value">0</div>
+      <div class="activation-strip-bar">
+        <div class="activation-strip-bar-fill is-blue" id="activation_bar_attempts"></div>
+      </div>
+      <div class="activation-strip-sub">Mensagens de reativação executadas</div>
+    </div>
+
+    <div class="activation-strip-card">
+      <div class="activation-strip-label">Leads recuperados</div>
+      <div id="activation_recovered" class="activation-strip-value">0</div>
+      <div class="activation-strip-bar">
+        <div class="activation-strip-bar-fill is-purple" id="activation_bar_recovered"></div>
+      </div>
+      <div class="activation-strip-sub">Responderam e voltaram ao funil</div>
+    </div>
+
+    <div class="activation-strip-card">
+      <div class="activation-strip-label">Matrículas recuperadas</div>
+      <div id="activation_converted" class="activation-strip-value">0</div>
+      <div class="activation-strip-bar">
+        <div class="activation-strip-bar-fill is-green" id="activation_bar_converted"></div>
+      </div>
+      <div class="activation-strip-sub">Viraram alunos novamente</div>
+    </div>
+  </div>
+
+  <div class="activation-summary-row">
+    <span>Tentativas médias: <strong id="activation_avg_attempts">0,0</strong></span>
+    <span class="activation-summary-dot">•</span>
+    <span>Tempo médio para recuperar: <strong id="activation_avg_days">0 dias</strong></span>
+    <span class="activation-summary-dot">•</span>
+    <span>Fase com maior recuperação: <strong id="activation_best_stage">—</strong></span>
+  </div>
+
+  <div class="activation-details-toggle-wrap">
+    <button type="button" id="activationDetailsBtn" class="activation-details-btn">Ver detalhes</button>
+  </div>
+
+    <div id="activationDetailsPanel" class="activation-details-panel" style="display:none">    <div class="activation-details-header">
+      <span class="activation-panel-bullet"></span>
+     <h4 class="activation-details-title">DETALHAMENTO DA REATIVAÇÃO</h4>
+      <span class="activation-panel-line"></span>
+    </div>
+
+    <div class="activation-details-grid">
+      <div class="activation-detail-block">
+        <div class="activation-detail-title">Recuperação por fase</div>
+        <div id="activation_stage_rows" class="activation-detail-rows"></div>
+      </div>
+
+      <div class="activation-detail-block">
+        <div class="activation-detail-title">Distribuição por tentativa</div>
+        <div id="activation_attempt_rows" class="activation-detail-rows"></div>
+      </div>
+
+      <div class="activation-detail-block">
+        <div class="activation-detail-title">Tempo de recuperação</div>
+        <div id="activation_time_rows" class="activation-detail-rows"></div>
+      </div>
+    </div>
+
+    <div class="activation-value-box">
+      <div class="activation-value-title">Valor recuperado</div>
+      <div id="activation_value_total" class="activation-value-total">R$ 0,00</div>
+      <div class="activation-value-sub">
+        <span id="activation_value_count">0 matrículas</span>
+        <span> x Ticket médio de </span>
+        <strong id="activation_value_ticket">R$ 0,00</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
       </div>
     </section>
   </div>
@@ -401,75 +1610,92 @@
       <header>Lead</header>
       <div class="body">
         <section>
-          <div class="group">
-            <label>Nome</label>
-            <input id="f_name" type="text" placeholder="Ex.: Ana Souza" />
-          </div>
-
-          <div class="group" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="group" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">            
             <div>
-              <label>Email</label>
-              <input id="f_email" type="email" placeholder="ana@email.com" />
+              <label>Nome</label>
+              <input id="f_name" type="text" placeholder="" />
             </div>
             <div>
-              <label>Telefone</label>
-              <input id="f_phone" type="tel" placeholder="(11) 9 9999-9999" />
+              <label>WhatsApp</label>
+              <input id="f_phone" type="tel" placeholder="" />
             </div>
           </div>
 
-          <div class="group" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="group" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+            <div>
+              <label>Origem</label>
+              <select id="f_source">
+                <option value="">Selecionar origem</option>
+                <option value="Instagram">Instagram</option>
+                <option value="Tráfego pago">Tráfego pago</option>
+                <option value="Indicação">Indicação</option>
+                <option value="Recepção">Recepção</option>
+                <option value="Google">Google</option>
+                <option value="Parceria">Parceria</option>
+                <option value="Sem origem">Sem origem</option>
+              </select>
+            </div>
+            <div>
+              <label>Plano</label>
+              <input id="f_plan" type="text" placeholder="" />
+            </div>
             <div>
               <label>Valor (R$)</label>
               <input id="f_value" type="number" min="0" step="0.01" />
             </div>
-            <div>
-              <label>Origem</label>
-              <input id="f_source" type="text" placeholder="Anuncio, Indicacao, Organico..." />
-            </div>
           </div>
-
-          <div class="group">
-            <label>Ação (próximo passo)</label>
-            <input id="f_action" type="text" placeholder="Ex.: Confirmar visita / Enviar proposta / Follow-up" />
-          </div>
-
-          <div class="group">
-            <label>Notas</label>
-            <textarea id="f_notes" placeholder="Contexto, proximos passos..."></textarea>
+         <div class="group" id="lessonDateGroup" style="display:none">
+  <label>Data e horário da aula experimental</label>
+  <div class="lesson-input-wrap">
+    <input id="f_lessonAt" type="datetime-local" />
+    <div id="lessonPreview" class="lesson-preview"></div>
+  </div>
+</div>
+                           <div class="group">
+            <label>Observações</label>
+            <textarea id="f_notes" rows="3" style="min-height:70px" placeholder=""></textarea>
           </div>
 
           <div class="group">
             <label>Etiquetas</label>
             <div class="tags-editor">
-              <input id="tagInput" type="text" placeholder="Digite e pressione Enter" style="flex:1" />
+              <input id="tagInput" type="text" placeholder="" style="flex:1" />
               <div class="colors" id="colorPalette"></div>
             </div>
             <div class="chips" id="tagChips" style="margin-top:8px"></div>
           </div>
 
-          <div class="group" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
-            <div>
-              <label>Responsavel</label>
-              <input id="f_owner" type="text" placeholder="Ex.: Joana" />
-            </div>
-            <div>
-              <label>Status de pagamento</label>
-              <select id="f_payment">
-                <option value="Pendente">Pendente</option>
-                <option value="Pago">Pago</option>
-                <option value="Cancelado">Cancelado</option>
-              </select>
-            </div>
-            <div>
-              <label>Proximo contato</label>
-              <input id="f_next" type="datetime-local" />
-            </div>
-          </div>
-
           <div class="group">
-            <label>Confirmações (conta no Dashboard)</label>
+            <label style="display:none">Confirmações</label>
             <div id="confirmBox" style="display:flex;flex-wrap:wrap;gap:8px"></div>
           </div>
+            <div class="group" style="margin-top:10px">
+           <label style="display:none">Tarefa</label>
+
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:2px">
+          <div style="display:flex;flex-direction:column;gap:4px">
+           <div id="taskBox" style="font-size:14px;font-weight:800;color:var(--text);line-height:1.2"></div>
+           <div id="taskDueText" class="task-due-text" style="padding-left:0"></div>
+         </div>
+
+         <div style="display:flex;gap:12px;flex-wrap:wrap">
+           <button type="button" id="completeTaskBtn" class="ghost task-secondary-btn" style="display:none">Compareceu</button>
+           <button type="button" id="noShowBtn" class="ghost task-secondary-btn" style="display:none">Não compareceu</button>
+          </div>
+
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+  <button type="button" id="viewScriptBtn" class="task-script-trigger-btn" style="display:none">Ver script</button>
+  <button type="button" id="backTaskBtn" class="ghost task-secondary-btn">Voltar tarefa</button>
+  <button type="button" id="advanceTaskBtn" class="ghost task-secondary-btn">Avançar tarefa</button>
+  <button type="button" id="restoreStageBtn" class="ghost task-secondary-btn" style="display:none">Voltar etapa anterior</button>
+</div>
+
+<div id="taskScriptPanel" class="task-script-panel" style="display:none">
+  <div id="taskScriptContent" class="task-script-content"></div>
+</div>
+        </div>
+          </div>
+
         </section>
 
         <aside>
@@ -482,7 +1708,6 @@
 
       <footer>
         <button id="deleteLeadBtn" class="btn-danger">Excluir</button>
-        <div class="spacer"></div>
         <button id="closeLeadBtn" class="ghost">Cancelar</button>
         <button id="saveLeadBtn" class="primary">Salvar</button>
       </footer>
@@ -509,8 +1734,8 @@
   function parseNumber(str){
     var s=String(str||"").trim();
     if(!s) return 0;
-    s=s.replace(/R\$\s?/g,"").replace(/\./g,"").replace(/,/g,".");
-    var n=Number(s);
+   s = s.replace(/R\$\s?/g,"").replace(/\./g,"").replace(/,/g,".");
+var n = Number(s);
     return isNaN(n) ? 0 : n;
   }
   function safeNum(v, fallback){
@@ -534,13 +1759,13 @@
         if(ao!==bo) return ao-bo;
         return String(a.updatedAt||a.createdAt).localeCompare(String(b.updatedAt||b.createdAt));
       });
-    items.forEach(function(l,i){ l.order=i+1; });
-  }
+    items.forEach(function(l,i){ l.order=i+1; });  }
   function normalizeAllOrders(){
     (state.stages||[]).forEach(function(s){ normalizeStageOrders(s.id); });
   }
 
   var draggingLeadId=null;
+
   var dragPlaceholder=null;
 
   function ensurePlaceholder(){
@@ -574,14 +1799,16 @@
   var TRAFFIC_KEY="kanbanGFv4_traffic";
 
   var defaultState={
-    stages:[
-      {id:"stage-lead",name:"Lead",color:"#d9f542"},
-      {id:"stage-ag",name:"Agendado",color:"#f59e0b"},
-      {id:"stage-exp",name:"Experimental",color:"#3b82f6"},
-      {id:"stage-mat",name:"Matriculado",color:"#22c55e"}
-    ],
-    leads:[]
-  };
+  stages:[
+    {id:"stage-lead",name:"Lead",color:"#d9f542"},
+    {id:"stage-atendimento",name:"Atendendo",color:"#06b6d4"},
+    {id:"stage-ag",name:"Agendado",color:"#f59e0b"},
+    {id:"stage-exp",name:"Experimental",color:"#3b82f6"},
+    {id:"stage-mat",name:"Matriculado",color:"#22c55e"},
+    {id:"stage-ativacao",name:"Reativação",color:"#a855f7"}
+  ],
+  leads:[]
+};
 
   var state = load();
   normalizeAllOrders();
@@ -600,81 +1827,17 @@
     return deepClone(defaultState);
   }
 
-  function sanitizeState(s){
-    var next={ stages:[], leads:[] };
-
-    next.stages=(s.stages||[]).filter(Boolean).map(function(st){
-      return {
-        id:String(st.id||uid()),
-        name:String(st.name||"Etapa"),
-        color:String(st.color||"#d9f542")
-      };
-    });
-    if(!next.stages.length) next.stages=deepClone(defaultState.stages);
-
-    var stageSet=new Set(next.stages.map(function(x){ return x.id; }));
-
-    next.leads=(s.leads||[]).filter(Boolean).map(function(l){
-      var tags=[];
-      if(Array.isArray(l.tags)){
-        tags=l.tags.map(function(t){
-          return { text:String((t&&t.text)||""), color:String((t&&t.color)||"#3b82f6") };
-        }).filter(function(t){ return t.text.trim(); });
-      }
-
-      var history=[];
-      if(Array.isArray(l.history)){
-        history=l.history.map(function(h){
-          return { ts:String((h&&h.ts)||nowISO()), action:String((h&&h.action)||"Atualizacao") };
-        });
-      }else{
-        history=[{ts:nowISO(),action:"Criado"}];
-      }
-
-      var milestones = {};
-      if (l && typeof l.milestones === "object" && l.milestones){
-        Object.keys(l.milestones).forEach(function(k){
-          var v = l.milestones[k];
-          if (v) milestones[String(k)] = String(v);
-        });
-      }
-
-      var stageId=String(l.stageId||next.stages[0].id);
-      if(!stageSet.has(stageId)) stageId=next.stages[0].id;
-
-      return {
-        id:String(l.id||uid()),
-        name:String(l.name||""),
-        email:String(l.email||""),
-        phone:String(l.phone||""),
-        value:(l.value===0 || l.value) ? l.value : "",
-        source:String(l.source||""),
-        actionText:String(l.actionText||l.action||""),
-        notes:String(l.notes||""),
-        tags:tags,
-        owner:String(l.owner||""),
-        paymentStatus:String(l.paymentStatus||"Pendente"),
-        nextContact:String(l.nextContact||""),
-        stageId:stageId,
-        createdAt:String(l.createdAt||nowISO()),
-        updatedAt:String(l.updatedAt||l.createdAt||nowISO()),
-        history:history,
-        milestones: milestones,
-        order: safeNum(l.order, 0)
-      };
-    });
-
-    return next;
-  }
-
-  var kanbanEl=document.getElementById("kanban");
-  var dashboardEl=document.getElementById("dashboard");
-  var searchInput=document.getElementById("q");
+  var kanbanEl = document.getElementById("kanban");
+  var dashboardEl = document.getElementById("dashboard");
+  var searchInput = document.getElementById("q");
 
   var btnPipeline=document.getElementById("btnPipeline");
   var btnDashboard=document.getElementById("btnDashboard");
+  var btnTasks=document.getElementById("btnTasks");
+  var tasksPanel=document.getElementById("tasksPanel");
+  var tasksList=document.getElementById("tasksList");
+  var tasksCountBadge=document.getElementById("tasksCountBadge");
   var newLeadBtn=document.getElementById("newLeadBtn");
-  var newStageBtn=document.getElementById("newStageBtn");
   var backupBtn=document.getElementById("backupBtn");
 
   var moreBtn=document.getElementById("moreBtn");
@@ -685,44 +1848,406 @@
   var exportByColumnBtn=document.getElementById("exportByColumnBtn");
   var importCsvFile=document.getElementById("importCsvFile");
   var templateCsvBtn=document.getElementById("templateCsvBtn");
+  var resetLeadsBtn = document.getElementById("resetLeadsBtn");
 
-  var hLead=document.getElementById("h_lead");
-  var hAg=document.getElementById("h_ag");
-  var hExp=document.getElementById("h_exp");
-  var hMat=document.getElementById("h_mat");
+ var hLead=document.getElementById("h_lead");
+var hAg=document.getElementById("h_ag");
+var hExp=document.getElementById("h_exp");
+var hMat=document.getElementById("h_mat");
 
-  var mLead=document.getElementById("m_lead");
-  var mAg=document.getElementById("m_ag");
-  var mExp=document.getElementById("m_exp");
-  var mMat=document.getElementById("m_mat");
+if(hLead) hLead.textContent = "Leads";
+if(hAg) hAg.textContent = "Agendamentos";
+if(hExp) hExp.textContent = "Experimentais";
+if(hMat) hMat.textContent = "Matrículas";
 
-  var mRev=document.getElementById("m_rev");
-  var mCac=document.getElementById("m_cac");
-  var mRoi=document.getElementById("m_roi");
-  var funnelEl=document.getElementById("funnel");
-  var trafficInput=document.getElementById("trafficInput");
+var mLead=document.getElementById("m_lead");
+var mAg=document.getElementById("m_ag");
+var mExp=document.getElementById("m_exp");
+var mMat=document.getElementById("m_mat");
 
-  var modalBackdrop=document.getElementById("leadModalBackdrop");
-  var f={
-    name:document.getElementById("f_name"),
-    email:document.getElementById("f_email"),
-    phone:document.getElementById("f_phone"),
-    value:document.getElementById("f_value"),
-    source:document.getElementById("f_source"),
-    action:document.getElementById("f_action"),
-    notes:document.getElementById("f_notes"),
-    tagInput:document.getElementById("tagInput"),
-    tagChips:document.getElementById("tagChips"),
-    colorPalette:document.getElementById("colorPalette"),
-    timeline:document.getElementById("timeline"),
-    owner:document.getElementById("f_owner"),
-    payment:document.getElementById("f_payment"),
-    next:document.getElementById("f_next")
-  };
+var cLead=document.getElementById("c_lead");
+var cAg=document.getElementById("c_ag");
+var cExp=document.getElementById("c_exp");
+var cMat=document.getElementById("c_mat");
 
-  var currentLeadId=null;
-  var draftTags=[];
-  var palette=["#22c55e","#ef4444","#f59e0b","#3b82f6","#a855f7","#06b6d4","#eab308","#84cc16","#fb7185","#14b8a6"];
+var pLead=document.getElementById("p_lead");
+var pAg=document.getElementById("p_ag");
+var pExp=document.getElementById("p_exp");
+var pMat=document.getElementById("p_mat");
+
+var accentLead=document.getElementById("accent_lead");
+var accentAg=document.getElementById("accent_ag");
+var accentExp=document.getElementById("accent_exp");
+var accentMat=document.getElementById("accent_mat");
+
+var mRev=document.getElementById("m_rev");
+var mCac=document.getElementById("m_cac");
+var mRoi=document.getElementById("m_roi");
+var trafficInput=document.getElementById("trafficInput");
+var originGridEl=document.getElementById("originGrid");
+var originExtraGridEl=document.getElementById("originExtraGrid");
+var originDetailsBtn=document.getElementById("originDetailsBtn");
+var originDetailsPanel=document.getElementById("originDetailsPanel");
+
+
+var activationBaseEl=document.getElementById("activation_base");
+var activationAttemptsEl=document.getElementById("activation_attempts");
+var activationRecoveredEl=document.getElementById("activation_recovered");
+var activationConvertedEl=document.getElementById("activation_converted");
+
+var activationAvgAttemptsEl=document.getElementById("activation_avg_attempts");
+var activationAvgDaysEl=document.getElementById("activation_avg_days");
+var activationBestStageEl=document.getElementById("activation_best_stage");
+
+var activationBarBaseEl=document.getElementById("activation_bar_base");
+var activationBarAttemptsEl=document.getElementById("activation_bar_attempts");
+var activationBarRecoveredEl=document.getElementById("activation_bar_recovered");
+var activationBarConvertedEl=document.getElementById("activation_bar_converted");
+
+var activationDetailsBtn=document.getElementById("activationDetailsBtn");
+var activationDetailsPanel=document.getElementById("activationDetailsPanel");
+var activationStageRowsEl=document.getElementById("activation_stage_rows");
+var activationAttemptRowsEl=document.getElementById("activation_attempt_rows");
+var activationTimeRowsEl=document.getElementById("activation_time_rows");
+var activationValueTotalEl=document.getElementById("activation_value_total");
+var activationValueCountEl=document.getElementById("activation_value_count");
+var activationValueTicketEl=document.getElementById("activation_value_ticket");
+
+var modalBackdrop=document.getElementById("leadModalBackdrop");
+var f={
+  name:document.getElementById("f_name"),
+  phone:document.getElementById("f_phone"),
+  value:document.getElementById("f_value"),
+  source:document.getElementById("f_source"),
+  plan:document.getElementById("f_plan"),
+  lessonAt:document.getElementById("f_lessonAt"),
+  lessonPreview:document.getElementById("lessonPreview"),
+  notes:document.getElementById("f_notes"),
+  tagInput:document.getElementById("tagInput"),
+  tagChips:document.getElementById("tagChips"),
+  colorPalette:document.getElementById("colorPalette"),
+  timeline:document.getElementById("timeline"),
+  taskBox:document.getElementById("taskBox"),
+  taskDueText:document.getElementById("taskDueText"),
+  viewScriptBtn:document.getElementById("viewScriptBtn"),
+  taskScriptPanel:document.getElementById("taskScriptPanel"),
+  taskScriptContent:document.getElementById("taskScriptContent"),
+  backTaskBtn:document.getElementById("backTaskBtn"),
+  advanceTaskBtn:document.getElementById("advanceTaskBtn"),
+  restoreStageBtn:document.getElementById("restoreStageBtn"),
+  completeTaskBtn:document.getElementById("completeTaskBtn"),
+  noShowBtn:document.getElementById("noShowBtn"),
+
+};
+
+var currentLeadId=null;
+var draftTags=[];
+var isTaskScriptOpen=false;
+
+var taskScripts = {
+
+"Responder lead": [
+  {
+    text: `Oi, bom dia! Sou a [nome].
+
+Pra eu te orientar melhor, me conta:
+
+Você já treina ou está começando agora?
+
+Qual seu objetivo com o treino?`
+  },
+  {
+    text: `Entendi, [nome].
+
+Nossos treinos são bem dinâmicos e ajudam bastante nesse objetivo.
+
+Queria te convidar pra fazer uma aula experimental com a gente.
+
+Você topa?`
+  },
+  {
+    text: `Perfeito.
+
+Da um olhada na nossa grade de horários e me fala qual fica melhor pra você?
+
+[Imagem com os horários]`
+  },
+{
+  text: `Perfeito! Para finalizar seu agendamento é só clicar no link abaixo e fazer um cadastro rapidinho 👇 
+
+[Link agendamento app]`
+},
+{
+  text: `Então sua aula ficou marcada para [dia] às [horário].
+Se puder, chegue uns 10 minutinhos antes pra gente te apresentar o espaço.
+
+Algumas dicas úteis:
+
+🍎 Se conseguir, coma algo leve 30 minutos antes. 
+💧 Traga sua garrafinha de água para se hidratar. 
+🚗 É fácil estacionar próximo do [box/academia]. 
+📍 Endereço: [Rua, número, bairro]
+Link no Google Maps: [Link]`
+},
+  {
+    text: `Entendi.
+
+Os valores variam de acordo com o plano e a frequência de treinos.
+
+Por isso a gente recomenda fazer uma aula experimental primeiro, pra ver se faz sentido pra você.
+
+O que acha?`
+  },
+{
+  text: `Temos planos a partir de [R$valor] (3x na semana) e [R$valor] (5x na semana).
+
+[Imagem planos]
+
+Faz assim… vem fazer uma aula sem compromisso. 
+
+Se você gostar, eu te dou um incentivo a mais pra começar. Topa?
+`
+}
+],
+"Retomar contato 1": [
+  {
+    text: `Bom dia, [nome]!
+
+Passando pra retomar nosso atendimento.
+
+Você topa vir fazer uma aula experimental com a gente?`
+  }
+],
+
+"Retomar contato 2": [
+  {
+    text: `Oi, [nome]!
+
+Passando pra ver se ainda faz sentido pra você conhecer o treino.
+
+Se quiser, podemos marcar uma aula experimental.`
+  }
+],
+
+"Encerrar atendimento - lead": [
+  {
+    text: `Bom dia, [nome]!
+
+Acho que acabamos nos desencontrando.
+
+Vou encerrar seu atendimento por aqui.
+
+Se ainda quiser conhecer o treino no [nome], é só me chamar.
+
+Tenha uma ótima semana.`
+  }
+],
+"Confirmar aula": [
+  {
+    text: `Bom dia, [nome]
+
+Passando pra lembrar da sua aula [hoje/amanhã] às [horário].
+
+Se puder, chegue uns 10 minutinhos antes pra gente te apresentar o espaço.
+
+Algumas dicas úteis:
+
+🍎 Se conseguir, coma algo leve 30 minutos antes. 
+💧 Traga sua garrafinha de água para se hidratar. 
+🚗 É fácil estacionar próximo do [box/academia]. 
+📍 Endereço: [Rua, número, bairro]
+Link no Google Maps: [Link]`
+  }
+],
+
+"Reagendar aula 1": [
+  {
+    text: `Bom dia, [nome]!
+
+Vi que você não conseguiu vir na aula experimental [hoje/ontem].
+
+Tenho uma vaga amanhã às [horário].
+
+Posso reservar para você?`
+  }
+],
+
+"Reagendar aula 2": [
+  {
+    text: `Bom dia, [nome]!
+
+Passando pra ver se você ainda gostaria de reagendar sua aula.
+
+Se fizer sentido, posso te passar os horários disponíveis.`
+  }
+],
+
+"Encerrar atendimento - agendado": [
+  {
+    text: `Bom dia, [nome]!
+
+Espero que esteja bem.
+
+Vou encerrar seu atendimento por aqui.
+
+Se ainda quiser fazer uma aula experimental no [nome], é só me chamar.
+
+Tenha uma ótima semana.`
+  }
+],
+
+"Retomar fechamento": [
+  {
+    text: `Bom dia, [nome]!
+
+Passando pra ver se você conseguiu pensar melhor sobre o que conversamos no box.
+
+Se fizer sentido pra você, podemos dar sequência.`
+  }
+],
+
+"Encerrar atendimento - experimental": [
+  {
+    text: `Bom dia, [nome]!
+
+Acho que acabamos nos desencontrando.
+
+Vou encerrar seu atendimento por aqui.
+
+Se ainda quiser continuar a conversa ou iniciar sua matrícula, é só me chamar.
+
+Tenha uma ótima semana.`
+  }
+],
+
+"Reativar 01": [
+  {
+    text: `Oi, [nome]!
+
+Vi que a gente não conseguiu dar sequência no seu atendimento.
+
+Se ainda fizer sentido pra você conhecer o treino, posso te passar os horários.`
+  },
+  {
+    text: `Oi, [nome]!
+
+Vi que você chegou a agendar, mas não conseguiu vir.
+
+Se quiser, posso te ajudar a remarcar em um horário melhor.`
+  },
+  {
+    text: `Oi, [nome]!
+
+Depois da aula que você fez com a gente, não conseguimos dar sequência.
+
+Se ainda fizer sentido pra você começar, posso te explicar melhor como funcionam os planos.`
+  }
+],
+
+"Reativar 02": [
+  {
+    text: `Bom dia, [nome]!
+
+Passando pra ver se ainda faz sentido pra você começar os treinos.
+
+Se quiser, podemos marcar uma aula experimental.`
+  },
+  {
+    text: `Bom dia, [nome]!
+
+Passando pra ver se você ainda tem interesse em vir conhecer.
+
+Se quiser, podemos reagendar sua aula.`
+  },
+  {
+    text: `Bom dia, [nome]!
+
+Passando pra ver se você ainda tem interesse em começar os treinos aqui com a gente.
+
+Se quiser, podemos retomar aquela conversa sobre os planos.`
+  }
+],
+
+"Nova tentativa": [
+  {
+    text: `Oi, [nome]!
+
+Abrimos uma condição especial esse mês pra quem quer começar.
+
+Se fizer sentido, te explico melhor.`
+  },
+  {
+    text: `Oi, [nome]!
+
+Abrimos novos horários e aulas esse mês aqui no [box/academia]💪.
+
+Se quiser começar, posso te explicar melhor.`
+  },
+  {
+    text: `Bom dia, [nome]!
+
+Fizemos algumas melhorias aqui no espaço e nos treinos.
+
+Se quiser, posso ver um horário pra você conhecer.`
+  },
+  {
+    text: `Oi, [nome]!
+
+Estamos liberando 1 semana de aulas pra quem quer conhecer o treino.
+
+Se fizer sentido pra você, posso te explicar como funciona.`
+  },
+  {
+    text: `Oi, [nome]!
+
+Esse mês vamos ter um evento aqui pra quem quer começar a treinar.
+
+Se fizer sentido, te explico como vai funcionar.
+
+Vai ser um prazer ter você com a gente 🙂`
+  },
+  {
+    text: `Bom dia, [nome]!
+
+Queria te mostrar um resultado recente de uma aluna nossa.
+
+Se fizer sentido pra você, posso ver um horário pra você conhecer.`
+  },
+  {
+    text: `Oi, [nome]!
+
+Vamos iniciar um desafio de 21 dias pra quem quer acelerar os resultados.
+
+Se fizer sentido pra você, posso te explicar como vai funcionar.`
+  },
+  {
+    text: `Oi, [nome]!
+
+Você já está treinando em algum lugar hoje ou ainda não?`
+  },
+  {
+    text: `Oi, [nome]!
+
+Você sente que está faltando uma rotina de treinos no seu dia?
+
+Se fizer sentido, posso te explicar como funciona.`
+  },
+  {
+    text: `Oi, [nome]!
+
+Esse mês quem começar a treinar com a gente ganha esse [brinde].
+
+Se quiser, te explico melhor.`
+  }
+],
+
+};
+
+var palette=["#22c55e","#ef4444","#f59e0b","#3b82f6","#a855f7","#06b6d4","#eab308","#84cc16","#fb7185","#14b8a6"];
+
+resetLeadsBtn.addEventListener("click", function(){
+  resetAllLeads();
+});
 
   function showPipeline(){
     dashboardEl.style.display="none";
@@ -734,13 +2259,107 @@
     renderDashboard();
   }
 
+  function showTasksPanel(){
+    renderTasksPanel();
+    tasksPanel.style.display="block";
+  }
+
+  function hideTasksPanel(){
+    tasksPanel.style.display="none";
+  }
+
   btnPipeline.addEventListener("click",showPipeline);
   btnDashboard.addEventListener("click",showDashboard);
+
+function toggleOriginDetails(){
+  if(!originDetailsBtn || !originDetailsPanel) return;
+
+  var isHidden =
+    originDetailsPanel.style.display === "none" ||
+    originDetailsPanel.style.display === "";
+
+  originDetailsPanel.style.display = isHidden ? "flex" : "none";
+  originDetailsBtn.textContent = isHidden ? "Ocultar detalhes" : "Ver detalhes";
+}
+
+function toggleActivationDetails(){
+  if(!activationDetailsBtn || !activationDetailsPanel) return;
+
+  var isHidden =
+    activationDetailsPanel.style.display === "none" ||
+    activationDetailsPanel.style.display === "";
+
+  activationDetailsPanel.style.display = isHidden ? "flex" : "none";
+  activationDetailsBtn.textContent = isHidden ? "Ocultar detalhes" : "Ver detalhes";
+}
+
+if(activationDetailsBtn){
+  activationDetailsBtn.addEventListener("click", toggleActivationDetails);
+}
+
+if(originDetailsBtn){
+  originDetailsBtn.addEventListener("click", toggleOriginDetails);
+}
+
+   btnTasks.addEventListener("click",function(){
+    if(tasksPanel.style.display === "block"){
+      hideTasksPanel();
+    }else{
+      showTasksPanel();
+    }
+  });
 
   function closeMenu(){
     morePanel.style.display="none";
     morePanel.setAttribute("aria-hidden","true");
   }
+
+function resetAllLeads(){
+  closeMenu();
+
+  var ok = confirm("Tem certeza de que deseja resetar todos os leads?");
+  if(!ok) return;
+
+  var text = prompt('Digite "SIM" para confirmar o reset de todos os leads.');
+  if(text !== "SIM"){
+    alert("Reset cancelado.");
+    return;
+  }
+
+  state.leads = [];
+  save();
+  render();
+  renderTasksPanel();
+  if(typeof renderDashboard === "function"){
+    renderDashboard();
+  }
+
+  alert("Todos os leads foram resetados com sucesso.");
+}
+
+function resetAllLeads(){
+  closeMenu();
+
+  var ok = confirm("Tem certeza de que deseja resetar todos os leads?");
+  if(!ok) return;
+
+  var text = prompt('Digite "SIM" para confirmar o reset de todos os leads.');
+  if(text !== "SIM"){
+    alert("Reset cancelado.");
+    return;
+  }
+
+  state.leads = [];
+  save();
+  render();
+  renderTasksPanel();
+  if(typeof renderDashboard === "function"){
+    renderDashboard();
+  }
+
+  alert("Todos os leads foram resetados com sucesso.");
+}
+
   function toggleMenu(){
     var open = morePanel.style.display === "block";
     if(open) closeMenu();
@@ -762,9 +2381,293 @@
     return hay.indexOf(q)>-1;
   }
 
-  function render(){
-    kanbanEl.innerHTML="";
-    var q=(searchInput.value||"").toLowerCase();
+  function getTaskPanelStatus(taskDueAt){
+    if(!taskDueAt) return "";
+
+    var now = new Date();
+    var due = new Date(taskDueAt);
+
+    if(isNaN(due.getTime())) return "";
+
+    var nowY = now.getFullYear();
+    var nowM = now.getMonth();
+    var nowD = now.getDate();
+
+    var dueY = due.getFullYear();
+    var dueM = due.getMonth();
+    var dueD = due.getDate();
+
+    var isSameDay = nowY === dueY && nowM === dueM && nowD === dueD;
+
+    if(due.getTime() < now.getTime()) return "overdue";
+    if(isSameDay) return "today";
+    return "future";
+  }
+
+function checkMissedLessons(){
+  var changed = false;
+  var now = new Date();
+
+  (state.leads || []).forEach(function(l){
+    if(!l) return;
+    if(l.stageId !== "stage-ag") return;
+    if(!l.lessonAt) return;
+
+    if(
+      l.nextTask === "Reagendar aula 1" ||
+      l.nextTask === "Reagendar aula 2" ||
+      l.nextTask === "Encerrar atendimento"
+    ){
+      return;
+    }
+
+    var lesson = new Date(l.lessonAt);
+    if(isNaN(lesson.getTime())) return;
+
+    var lessonStart = new Date(lesson.getTime());
+    var noShowAt = new Date(lesson.getTime() + 2 * 60 * 60 * 1000);
+
+    if(
+      now.getTime() >= lessonStart.getTime() &&
+      now.getTime() < noShowAt.getTime()
+    ){
+      if(l.nextTask !== "Confirmar presença na aula"){
+        l.nextTask = "Confirmar presença na aula";
+        l.taskDueAt = lessonStart.toISOString();
+        l.updatedAt = nowISO();
+        changed = true;
+      }
+      return;
+    }
+
+    if(now.getTime() >= noShowAt.getTime()){
+      l.nextTask = "Reagendar aula 1";
+      l.taskDueAt = nowISO();
+      l.updatedAt = nowISO();
+
+      if(
+        !l.history ||
+        !l.history.length ||
+        l.history[l.history.length - 1].action !== "Não compareceu automaticamente"
+      ){
+        (l.history || (l.history = [])).push({
+          ts: nowISO(),
+          action: "Não compareceu automaticamente"
+        });
+      }
+
+      changed = true;
+    }
+  });
+
+  if(changed){
+    save();
+  }
+}
+
+function checkExpiredClosings(){
+  var changed = false;
+  var now = new Date();
+
+  (state.leads || []).forEach(function(l){
+    if(!l) return;
+    if(l.stageId !== "stage-exp") return;
+    if(l.nextTask !== "Retomar fechamento") return;
+    if(!l.taskDueAt) return;
+
+    var due = new Date(l.taskDueAt);
+    if(isNaN(due.getTime())) return;
+
+    if(now.getTime() >= due.getTime()){
+      l.nextTask = "Encerrar atendimento";
+      l.taskDueAt = getTaskDueAtForTask("Encerrar atendimento");
+      l.updatedAt = nowISO();
+
+      if(
+        !l.history ||
+        !l.history.length ||
+        l.history[l.history.length - 1].action !== "Retomar fechamento expirou automaticamente"
+      ){
+        (l.history || (l.history = [])).push({
+          ts: nowISO(),
+          action: "Retomar fechamento expirou automaticamente"
+        });
+      }
+
+      changed = true;
+    }
+  });
+
+  if(changed){
+    save();
+  }
+}
+
+function checkExpiredAtendimento(){
+  var changed = false;
+  var now = new Date();
+
+  (state.leads || []).forEach(function(l){
+    if(!l) return;
+    if(l.stageId !== "stage-atendimento") return;
+    if(l.nextTask !== "Responder lead") return;
+    if(!l.taskDueAt) return;
+
+    var due = new Date(l.taskDueAt);
+    if(isNaN(due.getTime())) return;
+
+    if(now.getTime() >= due.getTime()){
+      l.taskDueAt = nowISO();
+      l.updatedAt = nowISO();
+      changed = true;
+    }
+  });
+
+  if(changed){
+    save();
+  }
+}
+
+  function collectTasksForToday(){
+    var items = [];
+
+    (state.leads || []).forEach(function(l){
+      if(!l) return;
+      if(!l.nextTask) return;
+      if(!l.taskDueAt) return;
+      if(l.nextTask === "") return;
+      var status = getTaskPanelStatus(l.taskDueAt);
+      if(l.nextTask === "Responder lead" && status === "overdue"){
+        status = "today";
+      }
+      if(status !== "overdue" && status !== "today") return;
+
+      items.push({
+        id: l.id,
+        name: String(l.name || "Sem nome"),
+        phone: String(l.phone || ""),
+        nextTask: String(l.nextTask || ""),
+        taskDueAt: String(l.taskDueAt || ""),
+        stageId: String(l.stageId || ""),
+        status: status
+      });
+    });
+
+    items.sort(function(a,b){
+      if(a.status !== b.status){
+        return a.status === "overdue" ? -1 : 1;
+      }
+      return new Date(a.taskDueAt).getTime() - new Date(b.taskDueAt).getTime();
+    });
+
+    return items;
+  }
+
+  function renderTasksPanel(){
+    if(!tasksList || !btnTasks) return;
+
+    var items = collectTasksForToday();
+
+    btnTasks.textContent = "Tarefas (" + items.length + ")";
+    if(tasksCountBadge) tasksCountBadge.textContent = String(items.length);
+    tasksList.innerHTML = "";
+
+    if(!items.length){
+      var empty = document.createElement("div");
+      empty.textContent = "Nenhuma tarefa para hoje.";
+      tasksList.appendChild(empty);
+      return;
+    }
+
+    items.forEach(function(item){
+      var card = document.createElement("div");
+      card.style.display = "flex";
+      card.style.flexDirection = "column";
+      card.style.gap = "6px";
+      card.style.width = "100%";
+      card.style.background = "#121212";
+      card.style.border = "1px solid var(--border)";
+      card.style.borderRadius = "14px";
+      card.style.padding = "10px 12px";
+
+      var top = document.createElement("div");
+      top.style.display = "flex";
+      top.style.alignItems = "flex-start";
+      top.style.gap = "8px";
+
+      var dot = document.createElement("span");
+      dot.style.width = "10px";
+      dot.style.height = "10px";
+      dot.style.borderRadius = "999px";
+      dot.style.marginTop = "6px";
+      dot.style.flex = "0 0 10px";
+      dot.style.background = item.status === "overdue" ? "#ef4444" : "var(--btn)";
+
+      var textWrap = document.createElement("div");
+      textWrap.style.display = "flex";
+      textWrap.style.flexDirection = "column";
+      textWrap.style.gap = "2px";
+      textWrap.style.minWidth = "0";
+      textWrap.style.flex = "1";
+
+      var task = document.createElement("div");
+      task.style.fontWeight = "900";
+      task.style.fontSize = "15px";
+      task.style.color = "var(--text)";
+      task.textContent = item.nextTask;
+
+      var leadName = document.createElement("div");
+      leadName.style.fontSize = "13px";
+      leadName.style.fontWeight = "500";
+      leadName.style.color = "var(--muted)";
+      leadName.textContent = item.name + " • Até " + fmtTaskDueLabel(item.taskDueAt);
+      leadName.style.lineHeight = "1.2";
+      leadName.style.marginTop = "2px";
+
+      textWrap.appendChild(task);
+      textWrap.appendChild(leadName);
+
+      top.appendChild(dot);
+      top.appendChild(textWrap);
+
+      var bottom = document.createElement("div");
+      bottom.style.display = "flex";
+      bottom.style.alignItems = "center";
+      bottom.style.justifyContent = "flex-end";
+      bottom.style.gap = "12px";
+      bottom.style.marginTop = "0";
+
+      var openBtn = document.createElement("button");
+      openBtn.type = "button";
+      openBtn.className = "primary";
+      openBtn.textContent = "Abrir";
+      openBtn.style.padding = "6px 18px";
+      openBtn.style.fontSize = "11px";
+      openBtn.style.fontWeight = "800";
+      openBtn.style.lineHeight = "1";
+      openBtn.style.minHeight = "30px";
+      openBtn.style.minWidth = "86px";
+
+      openBtn.addEventListener("click", function(){
+        openLeadModal(item.id);
+      });
+
+      bottom.appendChild(openBtn);
+
+      card.appendChild(top);
+      card.appendChild(bottom);
+
+      tasksList.appendChild(card);
+    });
+  }
+
+ function render(){
+  checkMissedLessons();
+  checkExpiredClosings();
+  checkExpiredAtendimento();
+  kanbanEl.innerHTML="";
+  kanbanEl.style.pointerEvents = "auto";
+  var q=(searchInput.value||"").toLowerCase();
 
     if(!state.stages || !state.stages.length) state.stages=deepClone(defaultState.stages);
 
@@ -781,24 +2684,20 @@
       header.addEventListener("dragstart",function(e){
         e.dataTransfer.setData("text/stage",stage.id);
       });
-      header.addEventListener("dragover",function(e){ e.preventDefault(); });
-      header.addEventListener("drop",function(e){
-        e.preventDefault();
-        var fromId=e.dataTransfer.getData("text/stage");
-        if(fromId) reorderStage(fromId, stage.id);
-      });
+header.addEventListener("dragover",function(e){ e.preventDefault(); });
+
 
       var dot=document.createElement("span");
       dot.className="col-dot";
       dot.style.background=stage.color;
       dot.title="Clique para alterar a cor";
-      dot.addEventListener("click",function(){
-        var c=prompt("Cor (hex) ex: #22c55e", stage.color);
-        if(!c) return;
-        stage.color=c.trim();
-        save();
-        render();
-      });
+dot.addEventListener("click",function(){
+  var c=prompt("Cor (hex) ex: #22c55e", stage.color);
+  if(!c) return;
+  stage.color=c.trim();
+  save();
+  render();
+});
 
       var title=document.createElement("div");
       title.className="col-title";
@@ -809,27 +2708,48 @@
       var count=document.createElement("div");
       count.className="col-count";
       var inStage=state.leads.filter(function(l){ return l.stageId===stage.id; });
-      count.textContent=inStage.length+" lead"+(inStage.length!==1?"s":"");
+      count.textContent = inStage.length + " lead" + (inStage.length !== 1 ? "s" : "");
 
       var actions=document.createElement("div");
       actions.className="col-actions";
 
-      var btnEdit=document.createElement("button");
-      btnEdit.className="col-btn";
-      btnEdit.type="button";
-      btnEdit.textContent="E";
-      btnEdit.title="Renomear";
-      btnEdit.addEventListener("click",function(){ renameStage(stage.id); });
+      var menuBtn=document.createElement("button");
+      menuBtn.className="col-btn";
+      menuBtn.type="button";
+      menuBtn.textContent="⋯";
+      menuBtn.title="Mais opções";
 
-      var btnDel=document.createElement("button");
-      btnDel.className="col-btn danger";
-      btnDel.type="button";
-      btnDel.textContent="X";
-      btnDel.title="Remover coluna";
-      btnDel.addEventListener("click",function(){ removeStage(stage.id); });
+      var menu=document.createElement("div");
+      menu.className="col-menu";
+      menu.style.display="none";
 
-      actions.appendChild(btnEdit);
-      actions.appendChild(btnDel);
+      var renameBtn=document.createElement("button");
+      renameBtn.type="button";
+      renameBtn.textContent="Renomear";
+      renameBtn.addEventListener("click",function(e){
+        e.stopPropagation();
+        menu.style.display="none";
+        renameStage(stage.id);
+      });
+
+      var deleteBtn=document.createElement("button");
+      deleteBtn.type="button";
+      deleteBtn.textContent="Excluir etapa";
+      deleteBtn.addEventListener("click",function(e){
+        e.stopPropagation();
+        menu.style.display="none";
+        removeStage(stage.id);
+      });
+
+      menuBtn.addEventListener("click",function(e){
+        e.stopPropagation();
+        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+      });
+
+      menu.appendChild(renameBtn);
+      menu.appendChild(deleteBtn);
+      actions.appendChild(menuBtn);
+      actions.appendChild(menu);
 
       header.appendChild(dot);
       header.appendChild(title);
@@ -880,47 +2800,53 @@
         })
         .forEach(function(l){ dz.appendChild(leadCard(l)); });
 
-      var footer=document.createElement("div");
-      footer.className="footer";
-      var addBtn=document.createElement("button");
-      addBtn.className="add-lead-btn";
-      addBtn.type="button";
-      addBtn.textContent="+ Adicionar Lead";
-      addBtn.addEventListener("click",function(){
-        var created = addLead({stageId:stage.id});
-        openLeadModal(created.id);
-      });
-      footer.appendChild(addBtn);
-
       col.appendChild(header);
       col.appendChild(dz);
-      col.appendChild(footer);
       kanbanEl.appendChild(col);
     });
 
+    var addStageCard=document.createElement("button");
+    addStageCard.type="button";
+    addStageCard.className="add-stage-card";
+    addStageCard.textContent="+ Nova etapa";
+    addStageCard.addEventListener("click",addStage);
+
+    kanbanEl.appendChild(addStageCard);
+
     if(dashboardEl.style.display!=="none") renderDashboard();
+    renderTasksPanel();
   }
 
   function leadCard(l){
-    var el=document.createElement("article");
-    el.className="card";
-    el.draggable=true;
-    el.dataset.leadId=l.id;
+  var el=document.createElement("article");
+  el.className="card";
+  el.draggable = true;
+  el.style.pointerEvents = "auto";
+  el.dataset.leadId = l.id;
 
-    el.addEventListener("dragstart",function(e){
-      draggingLeadId=l.id;
-      e.dataTransfer.setData("text/lead", l.id);
-      setTimeout(function(){ el.style.opacity="0.35"; }, 0);
+  el.addEventListener("dragstart", function(e){
+    draggingLeadId = l.id;
+    e.dataTransfer.setData("text/lead", l.id);
+    e.dataTransfer.effectAllowed = "move";
+    setTimeout(function(){
+      el.style.opacity = "0.35";
+    }, 0);
+  });
+
+  el.addEventListener("dragend", function(){
+    el.style.opacity = "";
+    draggingLeadId = null;
+    cleanupPlaceholder();
+    [].slice.call(document.querySelectorAll(".dropzone.highlight")).forEach(function(z){
+      z.classList.remove("highlight");
     });
+  });
 
-    el.addEventListener("dragend",function(){
-      el.style.opacity="";
-      draggingLeadId=null;
-      cleanupPlaceholder();
-      [].slice.call(document.querySelectorAll(".dropzone.highlight")).forEach(function(z){ z.classList.remove("highlight"); });
-    });
-
-    el.addEventListener("click",function(){ openLeadModal(l.id); });
+  el.addEventListener("click", function(e){
+    e.stopPropagation();
+    if(draggingLeadId) return;
+    openLeadModal(l.id);
+  });
 
     var info=document.createElement("div");
     info.className="card-info";
@@ -943,14 +2869,73 @@
       info.appendChild(phone);
     }
 
-    var chips=document.createElement("div");
+        var chips=document.createElement("div");
     chips.className="chips";
+    chips.style.flexDirection="column";
+    chips.style.alignItems="flex-start";
+    chips.style.gap="6px";
 
-    if(l.actionText && String(l.actionText).trim()){
-      var actionChip=document.createElement("span");
-      actionChip.className="chip action";
-      actionChip.textContent=String(l.actionText).trim();
-      chips.appendChild(actionChip);
+if(l.nextTask){
+  var task=document.createElement("span");
+  task.className="chip task";
+  task.textContent=l.nextTask;
+  chips.appendChild(task);
+
+  if(
+    String(l.stageId||"") === "stage-ag" &&
+    l.lessonAt &&
+    (
+      l.nextTask === "Confirmar aula" ||
+      l.nextTask === "Confirmar aula experimental" ||
+      l.nextTask === "Aula agendada"
+    )
+  ){
+    var lessonChip=document.createElement("span");
+    lessonChip.className="chip task";
+    lessonChip.textContent=fmtLessonLabel(l.lessonAt);
+    chips.appendChild(lessonChip);
+  }
+
+  var cardTaskStatus = getTaskPanelStatus(l.taskDueAt);
+
+  if(l.nextTask === "Responder lead" && cardTaskStatus === "overdue"){
+    cardTaskStatus = "today";
+  }
+
+  if(cardTaskStatus === "overdue"){
+    var overdue=document.createElement("div");
+    overdue.className="task-overdue";
+
+    var overdueIcon=document.createElement("span");
+    overdueIcon.className="task-overdue-icon";
+    overdueIcon.textContent="◔";
+
+    var overdueText=document.createElement("span");
+    overdueText.textContent="atraso";
+
+    overdue.appendChild(overdueIcon);
+    overdue.appendChild(overdueText);
+    chips.appendChild(overdue);
+  }
+}
+
+var isActivationStage = String(l.stageId || "") === "stage-ativacao";
+if(isActivationStage){
+  var temperature = getLeadTemperature(l);
+  if(temperature){
+    var temperatureChip=document.createElement("span");
+    temperatureChip.className="chip temperature " + getLeadTemperatureClass(temperature);
+    temperatureChip.textContent=temperature;
+    chips.appendChild(temperatureChip);
+  }
+}
+
+  if(l.actionText && String(l.actionText).trim()){
+  var actionChip=document.createElement("span");
+  actionChip.className="chip action";
+  actionChip.textContent=String(l.actionText).trim();
+  chips.appendChild(actionChip);
+
     }
 
     (l.tags||[]).forEach(function(t){
@@ -972,18 +2957,31 @@
     base=base||{};
     var l={
       id:uid(),
-      name:base.name||"Novo lead",
+      name:base.name||"",
       email:"",
       phone:"",
       value:"",
       source:"",
+      plan:"",
+      lessonAt:"",
       actionText:"",
+      nextTask:getSuggestedTaskByStage(base.stageId || state.stages[0].id),
+      taskDueAt:getTaskDueAtForTask(getSuggestedTaskByStage(base.stageId || state.stages[0].id)),
       notes:"",
       tags:[],
       milestones:{},
       owner:"",
       paymentStatus:"Pendente",
       nextContact:"",
+      reativacaoTentativas:0,
+      previousStageBeforeActivation:"",
+      activationEnteredAt:"",
+      activationRecoveredAt:"",
+      activationConvertedAt:"",
+      activationRecovered:false,
+      activationConverted:false,
+      activationAttemptsAtRecovery:0,
+      activationAttemptsAtConversion:0,
       stageId: base.stageId || state.stages[0].id,
       createdAt: nowISO(),
       updatedAt: nowISO(),
@@ -996,25 +2994,257 @@
     return l;
   }
 
-  function moveLeadTo(id,stageId){
-    var l=state.leads.find(function(x){ return x.id===id; });
-    if(!l) return;
+function moveLeadTo(id,stageId){
+  var l=state.leads.find(function(x){ return x.id===id; });
+  if(!l) return;
 
-    var fromStageId=l.stageId;
-    if(l.stageId!==stageId){
-      var from=(state.stages.find(function(s){return s.id===l.stageId;})||{}).name||"-";
-      var to=(state.stages.find(function(s){return s.id===stageId;})||{}).name||"-";
-      (l.history||(l.history=[])).push({ts:nowISO(),action:"Movido: "+from+" -> "+to});
-      l.stageId=stageId;
-      l.order=nextOrder(stageId);
-      normalizeStageOrders(fromStageId);
-      normalizeStageOrders(stageId);
+  var fromStageId=l.stageId;
+
+  if(l.stageId!==stageId){
+    var from=(state.stages.find(function(s){ return s.id===l.stageId; })||{}).name||"-";
+    var to=(state.stages.find(function(s){ return s.id===stageId; })||{}).name||"-";
+
+    (l.history||(l.history=[])).push({
+      ts: nowISO(),
+      action: "Movido: " + from + " -> " + to
+    });
+
+    l.stageId=stageId;
+
+    if(fromStageId === "stage-ativacao" && stageId === "stage-atendimento"){
+      l.activationRecovered = true;
+      l.activationRecoveredAt = nowISO();
+      l.activationAttemptsAtRecovery = safeNum(l.reativacaoTentativas,0);
+
+      (l.history||(l.history=[])).push({
+        ts: nowISO(),
+        action: "Lead recuperado pela ativação"
+      });
     }
 
-    l.updatedAt=nowISO();
-    save();
-    render();
+    if(stageId === "stage-mat" && l.activationRecovered && !l.activationConverted){
+      l.activationConverted = true;
+      l.activationConvertedAt = nowISO();
+      l.activationAttemptsAtConversion = safeNum(l.reativacaoTentativas,0);
+
+      (l.history||(l.history=[])).push({
+        ts: nowISO(),
+        action: "Matrícula recuperada pela ativação"
+      });
+    }
+
+    if(stageId==="stage-ativacao"){
+      l.previousStageBeforeActivation = fromStageId;
+      l.reativacaoTentativas = 0;
+      l.activationEnteredAt = nowISO();
+      l.activationRecoveredAt = "";
+      l.activationConvertedAt = "";
+      l.activationRecovered = false;
+      l.activationConverted = false;
+      l.activationAttemptsAtRecovery = 0;
+      l.activationAttemptsAtConversion = 0;
+
+      (l.history||(l.history=[])).push({
+        ts: nowISO(),
+        action: "Reativação iniciada"
+      });
+    }
+
+if(stageId === "stage-ag"){
+  var confirmationDueAt = getAgendamentoConfirmationDueAt(l.lessonAt);
+
+  if(!l.lessonAt){
+    l.nextTask = "Agendar aula";
+    l.taskDueAt = nowISO();
+  }else{
+    l.nextTask = "Confirmar aula";
+    l.taskDueAt = confirmationDueAt || "";
   }
+}else{
+  l.nextTask = getSuggestedTaskByStage(stageId);
+      l.taskDueAt = getTaskDueAtForTask(l.nextTask);
+    }
+
+    l.order=nextOrder(stageId);
+    normalizeStageOrders(fromStageId);
+
+    if(stageId === "stage-ativacao"){
+      normalizeActivationStageOrder();
+    }else{
+      normalizeStageOrders(stageId);
+    }
+  }
+
+  l.updatedAt=nowISO();
+  save();
+  render();
+}  function sanitizeText(v){
+  return String(v || "")
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"");
+}
+
+function sanitizeState(s){
+  var requiredStages = [
+    {id:"stage-lead",name:"Lead",color:"#d9f542"},
+    {id:"stage-atendimento",name:"Atendendo",color:"#06b6d4"},
+    {id:"stage-ag",name:"Agendado",color:"#f59e0b"},
+    {id:"stage-exp",name:"Experimental",color:"#3b82f6"},
+    {id:"stage-mat",name:"Matriculado",color:"#22c55e"},
+    {id:"stage-ativacao",name:"Reativação",color:"#a855f7"}
+  ];
+
+  var aliases = {
+    "stage-lead":"stage-lead",
+    "lead":"stage-lead",
+    "leads":"stage-lead",
+
+    "stage-atendimento":"stage-atendimento",
+    "atendendo":"stage-atendimento",
+    "atendimento":"stage-atendimento",
+
+    "stage-ag":"stage-ag",
+    "agendado":"stage-ag",
+    "agendamento":"stage-ag",
+
+    "stage-exp":"stage-exp",
+    "experimental":"stage-exp",
+    "aula experimental":"stage-exp",
+    "experimenta":"stage-exp",
+
+    "stage-mat":"stage-mat",
+    "matriculado":"stage-mat",
+    "matricula":"stage-mat",
+    "matriculas":"stage-mat",
+
+    "stage-ativacao":"stage-ativacao",
+    "ativacao":"stage-ativacao",
+    "ativação":"stage-ativacao",
+    "reativacao":"stage-ativacao",
+    "reativação":"stage-ativacao"
+  };
+
+  var next = { stages:[], leads:[] };
+
+  var rawStages = Array.isArray(s && s.stages) ? s.stages.filter(Boolean) : [];
+  var rawLeads = Array.isArray(s && s.leads) ? s.leads.filter(Boolean) : [];
+
+  var oldToNewStageId = {};
+  var extras = [];
+  var usedExtraIds = new Set();
+
+  rawStages.forEach(function(st){
+    var oldId = String(st.id || uid());
+    var name = String(st.name || "Etapa");
+    var color = String(st.color || "#d9f542");
+
+    var normalizedId = sanitizeText(oldId);
+    var normalizedName = sanitizeText(name);
+
+    var officialId = aliases[normalizedId] || aliases[normalizedName] || null;
+
+    if(officialId){
+      oldToNewStageId[oldId] = officialId;
+      return;
+    }
+
+    if(!usedExtraIds.has(oldId)){
+      usedExtraIds.add(oldId);
+      extras.push({
+        id: oldId,
+        name: name,
+        color: color
+      });
+    }
+  });
+
+  next.stages = requiredStages.map(function(st){
+    return {
+      id: st.id,
+      name: st.name,
+      color: st.color
+    };
+  }).concat(extras);
+
+  var stageSet = new Set(next.stages.map(function(st){ return st.id; }));
+
+  next.leads = rawLeads.map(function(l){
+    var tags = [];
+    if(Array.isArray(l.tags)){
+      tags = l.tags.map(function(t){
+        return {
+          text:String((t && t.text) || ""),
+          color:String((t && t.color) || "#3b82f6")
+        };
+      }).filter(function(t){ return t.text.trim(); });
+    }
+
+    var history = [];
+    if(Array.isArray(l.history) && l.history.length){
+      history = l.history.map(function(h){
+        return {
+          ts:String((h && h.ts) || nowISO()),
+          action:String((h && h.action) || "Atualizacao")
+        };
+      });
+    }else{
+      history = [{ts:nowISO(),action:"Criado"}];
+    }
+
+    var milestones = {};
+    if(l && typeof l.milestones === "object" && l.milestones){
+      Object.keys(l.milestones).forEach(function(k){
+        var v = l.milestones[k];
+        if(v) milestones[String(k)] = String(v);
+      });
+    }
+
+    var originalStageId = String(l.stageId || "stage-lead");
+    var mappedStageId = oldToNewStageId[originalStageId] || originalStageId;
+
+    if(!stageSet.has(mappedStageId)){
+      mappedStageId = "stage-lead";
+    }
+
+    return {
+      id:String(l.id || uid()),
+      name:String(l.name || ""),
+      email:String(l.email || ""),
+      phone:String(l.phone || ""),
+      value:(l.value===0 || l.value) ? l.value : "",
+      source:String(l.source || ""),
+      plan:String(l.plan || ""),
+      lessonAt:String(l.lessonAt || ""),
+      actionText:String(l.actionText || l.action || ""),
+      nextTask:String(l.nextTask || ""),
+      taskDueAt:String(l.taskDueAt || ""),
+      previousStageBeforeActivation:String(l.previousStageBeforeActivation || ""),
+      notes:String(l.notes || ""),
+      tags:tags,
+      owner:String(l.owner || ""),
+      paymentStatus:String(l.paymentStatus || "Pendente"),
+      nextContact:String(l.nextContact || ""),
+      reativacaoTentativas:safeNum(l.reativacaoTentativas,0),
+      activationEnteredAt:String(l.activationEnteredAt || ""),
+      activationRecoveredAt:String(l.activationRecoveredAt || ""),
+      activationConvertedAt:String(l.activationConvertedAt || ""),
+      activationRecovered:Boolean(l.activationRecovered),
+      activationConverted:Boolean(l.activationConverted),
+      activationAttemptsAtRecovery:safeNum(l.activationAttemptsAtRecovery,0),
+      activationAttemptsAtConversion:safeNum(l.activationAttemptsAtConversion,0),
+      stageId:mappedStageId,
+      createdAt:String(l.createdAt || nowISO()),
+      updatedAt:String(l.updatedAt || l.createdAt || nowISO()),
+      history:history,
+      milestones:milestones,
+      order:safeNum(l.order, 0)
+    };
+  });
+
+  return next;
+}
 
   function toggleMilestone(leadId, stageId){
     var l = state.leads.find(function(x){ return x.id === leadId; });
@@ -1025,12 +3255,10 @@
     var st = (state.stages||[]).find(function(s){ return s.id === stageId; });
     var stName = st ? st.name : stageId;
 
-    if(l.milestones[stageId]){
+      if(l.milestones[stageId]){
       delete l.milestones[stageId];
-      (l.history||(l.history=[])).push({ ts: nowISO(), action: "Desmarcado: " + stName });
     }else{
       l.milestones[stageId] = nowISO();
-      (l.history||(l.history=[])).push({ ts: nowISO(), action: "Confirmado: " + stName });
     }
 
     l.updatedAt = nowISO();
@@ -1044,35 +3272,102 @@
   }
 
   function reorderLead(id, stageId, beforeId){
-    var l=state.leads.find(function(x){ return x.id===id; });
-    if(!l) return;
+  var l=state.leads.find(function(x){ return x.id===id; });
+  if(!l) return;
 
-    var fromStageId=l.stageId;
-    var stageChanged = (fromStageId!==stageId);
+  var fromStageId=l.stageId;
+  var stageChanged = (fromStageId!==stageId);
 
     if(stageChanged){
-      var from=(state.stages.find(function(s){return s.id===fromStageId;})||{}).name||"-";
-      var to=(state.stages.find(function(s){return s.id===stageId;})||{}).name||"-";
-      (l.history||(l.history=[])).push({ts:nowISO(),action:"Movido: "+from+" -> "+to});
-      l.stageId=stageId;
+    var from = (state.stages.find(function(s){ return s.id === fromStageId; }) || {}).name || "-";
+    var to = (state.stages.find(function(s){ return s.id === stageId; }) || {}).name || "-";
+
+    (l.history || (l.history = [])).push({
+      ts: nowISO(),
+      action: "Movido: " + from + " -> " + to
+    });
+
+    l.stageId = stageId;
+
+    if(fromStageId === "stage-ativacao" && stageId === "stage-atendimento"){
+      l.activationRecovered = true;
+      l.activationRecoveredAt = nowISO();
+      l.activationAttemptsAtRecovery = safeNum(l.reativacaoTentativas, 0);
+
+      (l.history || (l.history = [])).push({
+        ts: nowISO(),
+        action: "Lead recuperado pela reativação"
+      });
     }
 
-    var list=(state.leads||[])
-      .filter(function(x){ return x.stageId===stageId && x.id!==id; })
-      .sort(function(a,b){ return safeNum(a.order,0)-safeNum(b.order,0); });
+    if(stageId === "stage-mat" && l.activationRecovered && !l.activationConverted){
+      l.activationConverted = true;
+      l.activationConvertedAt = nowISO();
+      l.activationAttemptsAtConversion = safeNum(l.reativacaoTentativas, 0);
 
-    var idx=beforeId ? list.findIndex(function(x){ return x.id===beforeId; }) : -1;
-    if(idx<0) list.push(l);
-    else list.splice(idx,0,l);
+      (l.history || (l.history = [])).push({
+        ts: nowISO(),
+        action: "Matrícula recuperada pela reativação"
+      });
+    }
 
-    list.forEach(function(item,i){ item.order=i+1; });
+    if(stageId === "stage-ativacao"){
+      l.previousStageBeforeActivation = fromStageId;
+      l.reativacaoTentativas = 0;
+      l.activationEnteredAt = nowISO();
+      l.activationRecoveredAt = "";
+      l.activationConvertedAt = "";
+      l.activationRecovered = false;
+      l.activationConverted = false;
+      l.activationAttemptsAtRecovery = 0;
+      l.activationAttemptsAtConversion = 0;
 
+      (l.history || (l.history = [])).push({
+        ts: nowISO(),
+        action: "Reativação iniciada"
+      });
+    }
+
+    if(stageId === "stage-ag"){
+      if(!l.lessonAt){
+        l.nextTask = "Agendar aula";
+        l.taskDueAt = "";
+      }else{
+        l.nextTask = "Confirmar aula";
+        l.taskDueAt = getAgendamentoConfirmationDueAt(l.lessonAt) || "";
+      }
+    }else{
+      l.nextTask = getSuggestedTaskByStage(stageId);
+      l.taskDueAt = getTaskDueAtForTask(l.nextTask);
+    }
+
+    l.updatedAt = nowISO();
+  }
+
+  if(stageId === "stage-ativacao"){
     if(stageChanged) normalizeStageOrders(fromStageId);
-
-    l.updatedAt=nowISO();
+    normalizeActivationStageOrder();
     save();
     render();
+    return;
   }
+
+  var list=(state.leads||[])
+    .filter(function(x){ return x.stageId===stageId && x.id!==id; })
+    .sort(function(a,b){ return safeNum(a.order,0)-safeNum(b.order,0); });
+
+  var idx=beforeId ? list.findIndex(function(x){ return x.id===beforeId; }) : -1;
+  if(idx<0) list.push(l);
+  else list.splice(idx,0,l);
+
+  list.forEach(function(item,i){ item.order=i+1; });
+
+  if(stageChanged) normalizeStageOrders(fromStageId);
+
+  l.updatedAt=nowISO();
+  save();
+  render();
+}
 
   function addStage(){
     var name=prompt("Nome da nova coluna:");
@@ -1166,6 +3461,10 @@
     renderTagsEditor();
   }
 
+f.lessonAt.addEventListener("input",function(){
+    renderLessonPreview(f.lessonAt.value||"");
+  });
+
   f.tagInput.addEventListener("keydown",function(e){
     if(e.key==="Enter"){
       e.preventDefault();
@@ -1189,26 +3488,355 @@
   }
 
   function fmtDateBR(iso){
-    try{
-      var d = new Date(iso);
-      return d.toLocaleString("pt-BR");
-    }catch(e){
-      return String(iso||"");
-    }
+  try{
+    var d = new Date(iso);
+    return d.toLocaleString("pt-BR");
+  }catch(e){
+    return String(iso||"");
+  }
+}
+
+function fmtTaskDueLabel(iso){
+  try{
+    var d = new Date(iso);
+    var now = new Date();
+
+    var sameDay =
+      d.getFullYear() === now.getFullYear() &&
+      d.getMonth() === now.getMonth() &&
+      d.getDate() === now.getDate();
+
+    var tomorrow = new Date(now);
+    tomorrow.setDate(now.getDate() + 1);
+
+    var isTomorrow =
+      d.getFullYear() === tomorrow.getFullYear() &&
+      d.getMonth() === tomorrow.getMonth() &&
+      d.getDate() === tomorrow.getDate();
+
+    var hh = String(d.getHours()).padStart(2,"0");
+    var mm = String(d.getMinutes()).padStart(2,"0");
+
+    if(sameDay) return "Hoje " + hh + ":" + mm;
+    if(isTomorrow) return "Amanhã " + hh + ":" + mm;
+
+    return String(d.getDate()).padStart(2,"0") + "/" +
+           String(d.getMonth()+1).padStart(2,"0") + " " +
+           hh + ":" + mm;
+  }catch(e){
+    return String(iso||"");
+  }
+}
+
+function fmtLessonLabel(iso){
+  try{
+    var d = new Date(iso);
+    var now = new Date();
+
+    var sameDay =
+      d.getFullYear() === now.getFullYear() &&
+      d.getMonth() === now.getMonth() &&
+      d.getDate() === now.getDate();
+
+    var tomorrow = new Date(now);
+    tomorrow.setDate(now.getDate() + 1);
+
+    var isTomorrow =
+      d.getFullYear() === tomorrow.getFullYear() &&
+      d.getMonth() === tomorrow.getMonth() &&
+      d.getDate() === tomorrow.getDate();
+
+    var hh = String(d.getHours()).padStart(2,"0");
+    var mm = String(d.getMinutes()).padStart(2,"0");
+
+    if(sameDay) return "Hoje • " + hh + ":" + mm;
+    if(isTomorrow) return "Amanhã • " + hh + ":" + mm;
+
+    return String(d.getDate()).padStart(2,"0") + "/" +
+           String(d.getMonth()+1).padStart(2,"0") + " • " +
+           hh + ":" + mm;
+  }catch(e){
+    return "";
+  }
+}
+
+function renderLessonPreview(value){
+  if(!f.lessonPreview) return;
+  f.lessonPreview.textContent = value ? fmtLessonLabel(value) : "";
+}
+
+function getAgendamentoConfirmationDueAt(lessonAt){
+  if(!lessonAt) return "";
+
+  var now = new Date();
+  var lesson = new Date(lessonAt);
+
+  if(isNaN(lesson.getTime())) return "";
+
+  var lessonHour = lesson.getHours();
+  var lessonTurn =
+    (lessonHour >= 6 && lessonHour < 12) ? "manha" :
+    (lessonHour >= 16 && lessonHour <= 21) ? "noite" : "";
+
+  if(!lessonTurn) return "";
+
+  var nowDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  var lessonDate = new Date(lesson.getFullYear(), lesson.getMonth(), lesson.getDate());
+  var diffDays = Math.round((lessonDate - nowDate) / 86400000);
+
+  var nowHour = now.getHours();
+  var nowTurn =
+    (nowHour >= 6 && nowHour < 12) ? "manha" :
+    (nowHour >= 16 && nowHour <= 21) ? "noite" : "fora";
+
+  var isNextTurn =
+    (diffDays === 0 && nowTurn === "manha" && lessonTurn === "noite") ||
+    (diffDays === 1 && nowTurn === "noite" && lessonTurn === "manha");
+
+  if(isNextTurn) return "";
+
+  var isTwoOrMoreTurnsAhead =
+    (diffDays === 1 && lessonTurn === "noite") ||
+    (diffDays >= 2);
+
+  if(!isTwoOrMoreTurnsAhead) return "";
+
+  var reminder = new Date(lesson);
+
+  if(diffDays >= 1){
+    reminder.setHours(9,0,0,0);
   }
 
-  function renderConfirmUI(l){
-    var box = document.getElementById("confirmBox");
-    if(!box) return;
+  if(reminder.getTime() <= now.getTime()) return "";
 
-    box.innerHTML = "";
+  return reminder.toISOString();
+}
 
-    var fixed = [
-      { id: "stage-lead", label: "Lead" },
-      { id: "stage-ag",   label: "Agendado" },
-      { id: "stage-exp",  label: "Experimental" },
-      { id: "stage-mat",  label: "Matriculado" }
-    ];
+function getTaskScript(taskName){
+
+  var script = taskScripts[String(taskName || "")];
+
+  if(!script) return "";
+
+  if(Array.isArray(script)){
+    return script.length ? script[0].text : "";
+  }
+
+  return String(script).trim();
+
+}
+
+function hideTaskScriptPanel(){
+  isTaskScriptOpen = false;
+  if(f.taskScriptPanel) f.taskScriptPanel.style.display = "none";
+  if(f.taskScriptContent) f.taskScriptContent.textContent = "";
+  if(f.viewScriptBtn) f.viewScriptBtn.textContent = "Ver script";
+}
+
+function showTaskScriptPanel(taskName){
+  if(!f.taskScriptPanel || !f.taskScriptContent || !f.viewScriptBtn) return;
+
+  renderTaskScript(taskName);
+  f.taskScriptPanel.style.display = "flex";
+  isTaskScriptOpen = true;
+  f.viewScriptBtn.textContent = "Ocultar script";
+}
+
+function toggleTaskScriptPanel(taskName){
+  if(!taskHasScript(taskName)){
+    hideTaskScriptPanel();
+    return;
+  }
+
+  if(isTaskScriptOpen){
+    hideTaskScriptPanel();
+  }else{
+    showTaskScriptPanel(taskName);
+  }
+}
+
+function renderTaskScript(taskName){
+
+  f.taskScriptContent.innerHTML = "";
+
+  if(!taskScripts[taskName]){
+    f.taskScriptContent.innerHTML = "Sem script para essa tarefa";
+    f.taskScriptPanel.style.display = "flex";
+    return;
+  }
+
+  var script = taskScripts[taskName.trim()];
+
+  if(Array.isArray(script)){
+
+script.forEach(function(block){
+
+var container = document.createElement("div");
+container.style.marginBottom = "16px";
+container.style.padding = "12px 16px 14px 16px";
+container.style.border = "1px solid rgba(255,255,255,.06)";
+container.style.borderRadius = "10px";
+container.style.background = "rgba(255,255,255,0.02)";
+container.style.position = "relative";
+
+var header = document.createElement("div");
+header.style.position = "absolute";
+header.style.top = "10px";
+header.style.right = "16px";
+header.style.margin = "0";
+
+var copy = document.createElement("button");
+copy.className = "ghost";
+copy.textContent = "Copiar script";
+copy.style.transition = "all .18s ease";
+
+copy.addEventListener("click", function(){
+  navigator.clipboard.writeText(block.text);
+
+  var originalText = copy.textContent;
+  var originalBg = copy.style.background;
+  var originalColor = copy.style.color;
+  var originalBorder = copy.style.borderColor;
+
+  copy.textContent = "Copiado";
+  copy.style.background = "var(--btn)";
+  copy.style.color = "#000";
+  copy.style.borderColor = "var(--btn)";
+  copy.disabled = true;
+
+  setTimeout(function(){
+    copy.textContent = originalText;
+    copy.style.background = originalBg;
+    copy.style.color = originalColor;
+    copy.style.borderColor = originalBorder;
+    copy.disabled = false;
+  }, 1200);
+});
+
+  header.appendChild(copy);
+
+var text = document.createElement("div");
+text.style.whiteSpace = "pre-wrap";
+text.style.lineHeight = "1.55";
+text.style.color = "#d1d5db";
+text.style.margin = "0";
+text.style.paddingTop = "24px";
+text.textContent = block.text;
+
+  container.appendChild(header);
+  container.appendChild(text);
+
+  f.taskScriptContent.appendChild(container);
+
+});
+
+} else {
+  f.taskScriptContent.textContent = script;
+}
+
+  f.taskScriptPanel.style.display = "flex";
+
+}
+
+function renderTaskUI(l){
+  if(!f.taskBox || !f.taskDueText || !f.viewScriptBtn || !f.backTaskBtn || !f.advanceTaskBtn || !f.restoreStageBtn || !f.completeTaskBtn || !f.noShowBtn) return;
+
+  f.taskBox.innerHTML = "";
+  f.taskBox.textContent = l.nextTask ? l.nextTask : "Sem tarefa";
+
+if(taskScripts[l.nextTask]){
+  f.viewScriptBtn.style.display = "inline-flex";
+}else{
+  f.viewScriptBtn.style.display = "none";
+}
+
+if(l.taskDueAt){
+  var dueLabel = fmtTaskDueLabel(l.taskDueAt);
+  if(dueLabel){
+    dueLabel = dueLabel.charAt(0).toLowerCase() + dueLabel.slice(1);
+  }
+  f.taskDueText.textContent = "Até " + dueLabel;
+}else{
+  f.taskDueText.textContent = "";
+}
+
+var script = taskScripts[l.nextTask];
+
+if(script){
+  f.viewScriptBtn.style.display = "inline-flex";
+}else{
+  f.viewScriptBtn.style.display = "none";
+}
+
+  var canAdvance =
+    l.stageId === "stage-atendimento" ||
+    l.stageId === "stage-ag" ||
+    l.stageId === "stage-exp" ||
+    l.stageId === "stage-ativacao";
+
+  var canCompleteTask =
+    (l.stageId === "stage-mat" && l.nextTask === "Cadastrar no sistema") ||
+    (
+      l.stageId === "stage-ag" &&
+      l.nextTask === "Confirmar presença na aula"
+    );
+
+  var canNoShow =
+    l.stageId === "stage-ag" &&
+    l.nextTask === "Confirmar presença na aula";
+
+  f.advanceTaskBtn.style.display = canAdvance ? "inline-flex" : "none";
+  f.advanceTaskBtn.disabled = !l.nextTask;
+  f.advanceTaskBtn.textContent = l.stageId === "stage-ativacao" ? "Tentativa realizada" : "Avançar tarefa";
+
+  f.completeTaskBtn.style.display = canCompleteTask ? "inline-flex" : "none";
+  f.completeTaskBtn.disabled = !canCompleteTask;
+
+  f.noShowBtn.style.display = canNoShow ? "inline-flex" : "none";
+  f.noShowBtn.disabled = !canNoShow;
+
+var canGoBack = !!getPrevTaskInFlow(l.stageId, l.nextTask || "");
+f.backTaskBtn.style.display = canGoBack ? "inline-flex" : "none";
+f.backTaskBtn.disabled = !canGoBack;
+
+  var canRestoreStage = l.stageId === "stage-ativacao" && !!l.previousStageBeforeActivation;
+  f.restoreStageBtn.style.display = canRestoreStage ? "inline-flex" : "none";
+  f.backTaskBtn.textContent = "Voltar tarefa";
+
+  if(l.stageId === "stage-ativacao"){
+    f.advanceTaskBtn.textContent = "Tentativa realizada";
+  }else if(l.nextTask === "Encerrar atendimento"){
+    f.advanceTaskBtn.textContent = "Mover para Ativação";
+  }else{
+    f.advanceTaskBtn.textContent = "Avançar tarefa";
+  }
+
+if(
+  l.stageId === "stage-ag" &&
+  l.nextTask === "Confirmar presença na aula"
+){
+  f.completeTaskBtn.textContent = "Compareceu";
+}else{
+  f.completeTaskBtn.textContent = "Concluir tarefa";
+}
+
+if(!l.nextTask || !taskHasScript(l.nextTask)){
+  hideTaskScriptPanel();
+}
+}
+
+function renderConfirmUI(l){
+  var box = document.getElementById("confirmBox");
+  if(!box) return;
+
+  box.innerHTML = "";
+
+  var fixed = [
+    { id: "stage-lead", label: "Lead" },
+    { id: "stage-ag",   label: "Agendado" },
+    { id: "stage-exp",  label: "Experimental" },
+    { id: "stage-mat",  label: "Matriculado" }
+  ];
 
     fixed.forEach(function(item){
       var btn = document.createElement("button");
@@ -1219,10 +3847,9 @@
 
       if(doneAt){
         btn.classList.add("on");
-        btn.textContent = item.label + " (" + fmtDateBR(doneAt) + ")";
-      }else{
-        btn.textContent = "Confirmar " + item.label;
       }
+
+      btn.textContent = item.label;
 
       btn.addEventListener("click", function(){
         toggleMilestone(l.id, item.id);
@@ -1232,26 +3859,33 @@
     });
   }
 
-  function openLeadModal(id){
-    currentLeadId=id;
-    var l=state.leads.find(function(x){ return x.id===id; });
-    if(!l) return;
+ function openLeadModal(id){
+  currentLeadId=id;
+  modalBackdrop.style.display = "flex";
+  var l=state.leads.find(function(x){ return x.id===id; });
+  if(!l) return;
 
-    f.name.value=l.name||"";
-    f.email.value=l.email||"";
+   hideTaskScriptPanel();
+
+   f.name.value=l.name||"";
     f.phone.value=l.phone||"";
     f.value.value=(l.value===0 || l.value) ? l.value : "";
     f.source.value=l.source||"";
-    f.action.value=l.actionText||"";
+    f.plan.value=l.plan||"";
+    f.lessonAt.value=l.lessonAt||"";
+    renderLessonPreview(l.lessonAt||"");
     f.notes.value=l.notes||"";
-    f.owner.value=l.owner||"";
-    f.payment.value=l.paymentStatus||"Pendente";
-    f.next.value=l.nextContact||"";
+
+    var lessonDateGroup = document.getElementById("lessonDateGroup");
+    if(lessonDateGroup){
+      lessonDateGroup.style.display = l.stageId === "stage-ag" ? "flex" : "none";
+    }
 
     draftTags=(l.tags||[]).slice();
     renderTagsEditor();
     renderTimeline(l);
     renderConfirmUI(l);
+    renderTaskUI(l);
 
     modalBackdrop.style.display="flex";
   }
@@ -1260,23 +3894,105 @@
 
   document.getElementById("closeLeadBtn").addEventListener("click",closeLeadModal);
 
+   f.backTaskBtn.addEventListener("click",function(){
+    if(!currentLeadId) return;
+    retreatLeadTask(currentLeadId);
+  });
+
+  f.restoreStageBtn.addEventListener("click",function(){
+    if(!currentLeadId) return;
+    restoreLeadStage(currentLeadId);
+  });
+
+f.viewScriptBtn.addEventListener("click", function(){
+
+  if(!currentLeadId) return;
+
+  var lead = state.leads.find(function(l){ return l.id === currentLeadId; });
+  if(!lead || !lead.nextTask) return;
+
+  if(isTaskScriptOpen){
+    f.taskScriptPanel.style.display = "none";
+    isTaskScriptOpen = false;
+    f.viewScriptBtn.textContent = "Ver script";
+    return;
+  }
+
+  renderTaskScript(lead.nextTask);
+  f.taskScriptPanel.style.display = "flex";
+  isTaskScriptOpen = true;
+  f.viewScriptBtn.textContent = "Ocultar script";
+
+});
+
+if(f.copyScriptBtn){
+  f.copyScriptBtn.addEventListener("click", async function(){
+
+  var text = String(f.taskScriptContent.textContent || "").trim();
+  if(!text) return;
+
+  try{
+    await navigator.clipboard.writeText(text);
+    f.copyScriptBtn.textContent = "Copiado";
+    setTimeout(function(){
+      if(f.copyScriptBtn) f.copyScriptBtn.textContent = "Copiar script";
+    },1200);
+  }catch(err){
+    alert("Não foi possível copiar o script.");
+  }
+});
+}
+
+  f.completeTaskBtn.addEventListener("click",function(){
+    if(!currentLeadId) return;
+    completeLeadTask(currentLeadId);
+});
+
+  f.noShowBtn.addEventListener("click",function(){
+  if(!currentLeadId) return;
+  markLeadAsNoShow(currentLeadId);
+  });
+
+  f.advanceTaskBtn.addEventListener("click",function(){
+    if(!currentLeadId) return;
+
+    var l = state.leads.find(function(x){ return x.id === currentLeadId; });
+    if(!l) return;
+
+    if(l.nextTask === "Encerrar atendimento"){
+      moveLeadTo(currentLeadId, "stage-ativacao");
+      closeLeadModal();
+      return;
+    }
+
+    advanceLeadTask(currentLeadId);
+  });
+
   document.getElementById("saveLeadBtn").addEventListener("click",function(){
     var l=state.leads.find(function(x){ return x.id===currentLeadId; });
     if(!l) return;
 
     l.name=(f.name.value||"").trim()||"Sem nome";
-    l.email=(f.email.value||"").trim();
     l.phone=(f.phone.value||"").trim();
     l.value=(f.value.value!=="" && f.value.value!=null) ? Number(f.value.value) : "";
     l.source=(f.source.value||"").trim();
-    l.actionText=(f.action.value||"").trim();
+    l.plan=(f.plan.value||"").trim();
+    l.lessonAt=(f.lessonAt.value||"").trim();
     l.notes=(f.notes.value||"").trim();
     l.tags=draftTags.slice();
-    l.owner=(f.owner.value||"").trim();
-    l.paymentStatus=f.payment.value;
-    l.nextContact=f.next.value;
 
-    (l.history||(l.history=[])).push({ts:nowISO(),action:"Editado"});
+    if(l.stageId === "stage-ag"){
+      if(!l.lessonAt){
+        l.nextTask = "";
+        l.taskDueAt = "";
+      }else{
+     l.nextTask = "Confirmar aula";
+     l.taskDueAt = getAgendamentoConfirmationDueAt(l.lessonAt) || "";
+      }
+
+      checkMissedLessons();
+    }
+
     l.updatedAt=nowISO();
 
     save();
@@ -1287,7 +4003,7 @@
   document.getElementById("deleteLeadBtn").addEventListener("click",function(){
     if(!currentLeadId) return;
     if(confirm("Excluir este lead?")){
-      state.leads=state.leads.filter(function(x){ return x.id!==currentLeadId; });
+      state.leads = state.leads.filter(function(x){ return x.id !== currentLeadId; });      
       save();
       render();
       closeLeadModal();
@@ -1326,110 +4042,904 @@
     return (state.stages||[]).find(function(s){ return s.id===id; }) || null;
   }
 
-  function renderDashboard(){
-    var sLead=getStageById("stage-lead");
-    var sAg=getStageById("stage-ag");
-    var sExp=getStageById("stage-exp");
-    var sMat=getStageById("stage-mat");
+function getLeadTemperature(l){
+  if(!l || !l.milestones) return "";
 
-    if(hLead) hLead.textContent = sLead ? sLead.name : "Lead";
-    if(hAg) hAg.textContent = sAg ? sAg.name : "Agendado";
-    if(hExp) hExp.textContent = sExp ? sExp.name : "Experimental";
-    if(hMat) hMat.textContent = sMat ? sMat.name : "Matriculado";
+  if(l.milestones["stage-exp"]) return "Experimental";
+  if(l.milestones["stage-ag"]) return "Agendado";
+  if(l.milestones["stage-lead"]) return "Lead";
 
-    var start = startOfWeekISO(new Date());
-    var end = endOfWeekISO(new Date());
+  return "";
+}
 
-    function countConfirmed(stageId){
-      var c = 0;
-      state.leads.forEach(function(l){
-        var ms = l.milestones && l.milestones[stageId];
-        if(inRange(ms, start, end)) c++;
-      });
-      return c;
-    }
+function getLeadTemperatureClass(temp){
+  if(temp === "Experimental") return "experimental";
+  if(temp === "Agendado") return "agendado";
+  if(temp === "Lead") return "lead";
+  return "";
+}
 
-    var leadW = countConfirmed("stage-lead");
-    var agW   = countConfirmed("stage-ag");
-    var expW  = countConfirmed("stage-exp");
-    var matW  = countConfirmed("stage-mat");
+function getSuggestedTaskByStage(stageId){
 
-    mLead.textContent=String(leadW);
-    mAg.textContent=String(agW);
-    mExp.textContent=String(expW);
-    mMat.textContent=String(matW);
+  if(stageId === "stage-mat") return "Cadastrar no sistema";
 
-    var rev=0;
-    state.leads.forEach(function(l){
-      var ms = l.milestones && l.milestones["stage-mat"];
-      if(inRange(ms, start, end)){
-        var v=Number(l.value||0);
-        if(!isNaN(v)) rev+=v;
-      }
-    });
-    mRev.textContent=fmtBRL(rev);
+  if(stageId === "stage-atendimento") return "Responder lead";
 
-    var traffic = parseNumber(localStorage.getItem(TRAFFIC_KEY) || "0");
-    var matCount = matW || 0;
-    var cac = matCount>0 ? (traffic / matCount) : 0;
-    var roi = rev - traffic;
+  if(stageId === "stage-ag") return "";
 
-    mCac.textContent=fmtBRL(cac);
-    mRoi.textContent=fmtBRL(roi);
+  if(stageId === "stage-exp") return "Retomar fechamento";
 
-    funnelEl.innerHTML="";
+  if(stageId === "stage-ativacao") return "Reativar 01";
 
-    var stagesToShow=[];
-    if(sLead && sAg && sExp && sMat){
-      stagesToShow=[sLead,sAg,sExp,sMat];
-    } else {
-      stagesToShow=(state.stages||[]).slice(0,4);
-    }
+  return "";
+}
 
-    var countsArr=[];
-    if(stagesToShow.length===4 &&
-       stagesToShow[0].id==="stage-lead" &&
-       stagesToShow[1].id==="stage-ag" &&
-       stagesToShow[2].id==="stage-exp" &&
-       stagesToShow[3].id==="stage-mat"){
-      countsArr=[leadW,agW,expW,matW];
-    } else {
-      countsArr=stagesToShow.map(function(s){
-        return state.leads.filter(function(l){ return l.stageId===s.id; }).length;
-      });
-    }
+function getNextTaskInFlow(stageId, currentTask){
 
-    stagesToShow.forEach(function(s,i){
-      var qty=countsArr[i]||0;
-      var conv=(i===0) ? null : (countsArr[i-1] ? (qty/countsArr[i-1]) : 0);
-      var perc=(i===0) ? "Base" : String(Math.round(conv*100))+"%";
+  if(stageId === "stage-atendimento"){
+    if(currentTask === "Responder lead") return "Retomar contato 1";
+    if(currentTask === "Retomar contato 1") return "Retomar contato 2";
+    if(currentTask === "Retomar contato 2") return "Encerrar atendimento";
+    return "Responder lead";
+  }
 
-      var row=document.createElement("div");
-      row.className="funnel-row";
+  if(stageId === "stage-ag"){
+    if(currentTask === "Confirmar aula") return "";
+    if(currentTask === "Confirmar presença na aula") return "";
+    if(currentTask === "Reagendar aula 1") return "Reagendar aula 2";
+    if(currentTask === "Reagendar aula 2") return "Encerrar atendimento";
+    return "";
+  }
 
-      var left=document.createElement("div");
-      left.className="funnel-left";
+  if(stageId === "stage-exp"){
+    if(currentTask === "Retomar fechamento") return "Encerrar atendimento";
+    if(currentTask === "Encerrar atendimento") return "";
+    return "Retomar fechamento";
+  }
 
-      var nm=document.createElement("div");
-      nm.className="funnel-name";
-      nm.textContent=s.name;
+if(stageId === "stage-ativacao"){
+  if(currentTask === "Reativar 01") return "Reativar 02";
+  if(currentTask === "Reativar 02") return "Nova tentativa";
+  if(currentTask === "Nova tentativa") return "Nova tentativa";
+  return "Reativar 01";
+}
 
-      var sub=document.createElement("div");
-      sub.className="funnel-sub";
-      sub.textContent=String(qty)+" lead(s)";
+  return "";
+}
 
-      left.appendChild(nm);
-      left.appendChild(sub);
+function getPrevTaskInFlow(stageId, currentTask){
 
-      var right=document.createElement("div");
-      right.className="funnel-right";
-      right.textContent=perc;
+  if(stageId === "stage-atendimento"){
+    if(currentTask === "Encerrar atendimento") return "Retomar contato 2";
+    if(currentTask === "Retomar contato 2") return "Retomar contato 1";
+    if(currentTask === "Retomar contato 1") return "Responder lead";
+    return "";
+  }
 
-      row.appendChild(left);
-      row.appendChild(right);
-      funnelEl.appendChild(row);
+  if(stageId === "stage-ag"){
+    if(currentTask === "Encerrar atendimento") return "Reagendar aula 2";
+    if(currentTask === "Reagendar aula 2") return "Reagendar aula 1";
+    if(currentTask === "Reagendar aula 1") return "";
+    if(currentTask === "Confirmar presença na aula") return "";
+    if(currentTask === "Confirmar aula") return "";
+    return "";
+  }
+
+  if(stageId === "stage-exp"){
+    if(currentTask === "Encerrar atendimento") return "Retomar fechamento";
+    if(currentTask === "Retomar fechamento") return "";
+    return "";
+  }
+
+if(stageId === "stage-ativacao"){
+  if(currentTask === "Nova tentativa") return "Reativar 02";
+  if(currentTask === "Reativar 02") return "Reativar 01";
+  if(currentTask === "Reativar 01") return "";
+  return "";
+}
+
+  return "";
+}
+
+function getTaskDueAtForTask(task){
+  if(!task) return "";
+
+  var d = new Date();
+
+if(task === "Responder lead"){
+  d.setMinutes(d.getMinutes() + 15);
+  return d.toISOString();
+}
+
+  if(task === "Cadastrar no sistema"){
+    d.setHours(d.getHours() + 24);
+    return d.toISOString();
+  }
+
+  if(task === "Retomar contato 1"){
+    d.setHours(d.getHours() + 24);
+    return d.toISOString();
+  }
+
+  if(task === "Retomar contato 2"){
+    d.setHours(d.getHours() + 48);
+    return d.toISOString();
+  }
+
+  if(task === "Confirmar aula"){
+    return d.toISOString();
+  }
+
+  if(task === "Reagendar aula 1"){
+    return d.toISOString();
+  }
+
+  if(task === "Reagendar aula 2"){
+    d.setHours(d.getHours() + 12);
+    return d.toISOString();
+  }
+
+  if(task === "Retomar fechamento"){
+    d.setHours(d.getHours() + 24);
+    return d.toISOString();
+  }
+
+  if(task === "Encerrar atendimento"){
+    d.setHours(d.getHours() + 48);
+    return d.toISOString();
+  }
+
+if(task === "Reativar 01"){
+  d.setDate(d.getDate() + 7);
+  return d.toISOString();
+}
+
+if(task === "Reativar 02"){
+  d.setDate(d.getDate() + 15);
+  return d.toISOString();
+}
+
+if(task === "Nova tentativa"){
+  d.setDate(d.getDate() + 30);
+  return d.toISOString();
+}
+
+  return "";
+}
+
+function advanceLeadTask(leadId){
+  var l = state.leads.find(function(x){ return x.id === leadId; });
+  if(!l) return;
+
+  var currentTask = String(l.nextTask || "");
+  var nextTask = getNextTaskInFlow(l.stageId, currentTask);
+
+  if(!nextTask) return;
+
+if(
+  l.stageId === "stage-ativacao" &&
+  (
+    currentTask === "Reativar 01" ||
+    currentTask === "Reativar 02" ||
+    currentTask === "Nova tentativa"
+  )
+){
+    l.reativacaoTentativas = safeNum(l.reativacaoTentativas, 0) + 1;
+
+    (l.history||(l.history=[])).push({
+      ts: nowISO(),
+      action: "Tentativa de reativação realizada: " + currentTask
     });
   }
+
+  l.nextTask = nextTask;
+  l.taskDueAt = getTaskDueAtForTask(nextTask);
+  l.updatedAt = nowISO();
+
+  (l.history||(l.history=[])).push({
+    ts: nowISO(),
+    action: "Tarefa avançada para: " + nextTask
+  });
+
+  save();
+  render();
+
+  if(currentLeadId === leadId){
+    renderTimeline(l);
+    openLeadModal(leadId);
+  }
+}
+
+function completeLeadTask(leadId){
+  var l = state.leads.find(function(x){ return x.id === leadId; });
+  if(!l) return;
+
+ if(
+  l.stageId === "stage-ag" &&
+  (
+    l.nextTask === "Confirmar aula" ||
+    l.nextTask === "Confirmar presença na aula"
+  )
+){
+  l.stageId = "stage-exp";
+  l.nextTask = "Retomar fechamento";
+  l.taskDueAt = getTaskDueAtForTask("Retomar fechamento");
+  l.updatedAt = nowISO();
+
+    (l.history || (l.history = [])).push({
+      ts: nowISO(),
+      action: "Compareceu à aula experimental"
+    });
+
+    save();
+    render();
+
+    if(currentLeadId === leadId){
+      renderTimeline(l);
+      openLeadModal(leadId);
+    }
+    return;
+  }
+
+  if(l.stageId === "stage-mat" && l.nextTask === "Cadastrar no sistema"){
+    l.nextTask = "";
+    l.taskDueAt = "";
+    l.updatedAt = nowISO();
+
+    (l.history || (l.history = [])).push({
+      ts: nowISO(),
+      action: "Cadastro no sistema concluído"
+    });
+
+    save();
+    render();
+
+    if(currentLeadId === leadId){
+      renderTimeline(l);
+      openLeadModal(leadId);
+    }
+  }
+}
+
+function retreatLeadTask(leadId){
+  var l = state.leads.find(function(x){ return x.id === leadId; });
+  if(!l) return;
+
+  var prevTask = getPrevTaskInFlow(l.stageId, l.nextTask || "");
+  if(!prevTask) return;
+
+    l.nextTask = prevTask;
+  l.taskDueAt = getTaskDueAtForTask(prevTask);
+  l.updatedAt = nowISO();
+
+  save();
+  render();
+
+  if(currentLeadId === leadId){
+    renderTimeline(l);
+    openLeadModal(leadId);
+  }
+}
+
+function markLeadAsNoShow(leadId){
+  var l = state.leads.find(function(x){ return x.id === leadId; });
+  if(!l) return;
+
+  l.nextTask = "Reagendar aula 1";
+  l.taskDueAt = nowISO();
+  l.updatedAt = nowISO();
+
+  (l.history||(l.history=[])).push({
+    ts: nowISO(),
+    action: "Marcado como não compareceu"
+  });
+
+  save();
+  render();
+
+  if(currentLeadId === leadId){
+    renderTimeline(l);
+    renderTaskUI(l);
+  }
+}
+
+function restoreLeadStage(leadId){
+  var l = state.leads.find(function(x){ return x.id === leadId; });
+  if(!l) return;
+
+  var previousStageId = String(l.previousStageBeforeActivation || "");
+  if(!previousStageId) return;
+
+  l.stageId = previousStageId;
+  l.updatedAt = nowISO();
+
+  (l.history||(l.history=[])).push({
+    ts: nowISO(),
+    action: "Voltou para etapa anterior"
+  });
+
+  save();
+  render();
+
+  if(currentLeadId === leadId){
+    renderTimeline(l);
+    openLeadModal(leadId);
+  }
+}
+
+function getActivationPriority(l){
+  var temp = getLeadTemperature(l);
+  if(temp === "Experimental") return 1;
+  if(temp === "Agendado") return 2;
+  if(temp === "Lead") return 3;
+  return 4;
+}
+
+function normalizeActivationStageOrder(){
+  var activationStageId = "stage-ativacao";
+
+  var items = (state.leads || [])
+    .filter(function(l){ return l.stageId === activationStageId; })
+    .sort(function(a,b){
+      var pa = getActivationPriority(a);
+      var pb = getActivationPriority(b);
+
+      if(pa !== pb) return pa - pb;
+
+      var au = String(a.updatedAt || a.createdAt || "");
+      var bu = String(b.updatedAt || b.createdAt || "");
+
+      return bu.localeCompare(au);
+    });
+
+  items.forEach(function(l,i){
+    l.order = i + 1;
+  });
+}
+
+function getOriginColor(name){
+  var map = {
+    "Instagram":"#f43f5e",
+    "Tráfego pago":"#38bdf8",
+    "Recepção":"#c4b5fd",
+    "Indicação":"#a3e635",
+    "Google":"#f59e0b",
+    "Sem origem":"#9ca3af",
+    "Parceria":"#8b5cf6" ,
+    "WhatsApp":"#86efac"
+  };
+  return map[name] || "#525252";
+}
+
+function buildOriginCard(name, leads, ags, exps, mats, leadToAgConv, expToMatConv, isExtra){
+  var card = document.createElement("div");
+  card.className = "origin-card " + (isExtra ? "is-extra" : "is-fixed");
+  card.style.background = "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(17,17,17,1) 45%)";
+  card.style.borderColor = "rgba(255,255,255,0.12)";
+
+  var title = document.createElement("div");
+  title.className = "origin-card-title";
+  title.textContent = name;
+
+  var main = document.createElement("div");
+  main.className = "origin-card-main";
+
+  function makeMetricBlock(value, label){
+    var block = document.createElement("div");
+    block.className = "origin-metric-block";
+
+    var number = document.createElement("div");
+    number.className = "origin-metric-value";
+    number.textContent = String(value);
+
+    var text = document.createElement("div");
+    text.className = "origin-metric-label";
+    text.textContent = label;
+
+    block.appendChild(number);
+    block.appendChild(text);
+
+    return block;
+  }
+
+  var leadsBlock = makeMetricBlock(leads, "Leads");
+  var divider = document.createElement("div");
+  divider.className = "origin-metric-divider";
+  var matsBlock = makeMetricBlock(mats, "Matrículas");
+
+  main.appendChild(leadsBlock);
+  main.appendChild(divider);
+  main.appendChild(matsBlock);
+
+  card.appendChild(title);
+  card.appendChild(main);
+
+  return card;
+}
+
+function renderOriginsPanel(){
+  if(!originGridEl || !originExtraGridEl) return;
+
+  var fixedOrder = [
+    "Instagram",
+    "Tráfego pago",
+    "Recepção",
+    "Indicação",
+    "Google",
+    "Parceria",
+    "Sem origem"
+  ];
+
+  var grouped = {};
+
+  function hasMilestone(lead, stageId){
+    return !!(lead.milestones && lead.milestones[stageId]);
+  }
+
+  function reachedAgendamento(lead){
+    return hasMilestone(lead, "stage-ag") ||
+      lead.stageId === "stage-ag" ||
+      lead.stageId === "stage-exp" ||
+      lead.stageId === "stage-mat";
+  }
+
+  function reachedExperimental(lead){
+    return hasMilestone(lead, "stage-exp") ||
+      lead.stageId === "stage-exp" ||
+      lead.stageId === "stage-mat";
+  }
+
+  function reachedMatricula(lead){
+    return hasMilestone(lead, "stage-mat") ||
+      lead.stageId === "stage-mat";
+  }
+
+  (state.leads || []).forEach(function(l){
+    var origin = String(l.source || "").trim();
+    if(!origin) origin = "Sem origem";
+
+    if(!grouped[origin]){
+      grouped[origin] = {
+        leads:0,
+        agendamentos:0,
+        experimentais:0,
+        matriculas:0
+      };
+    }
+
+    grouped[origin].leads += 1;
+
+    if(reachedAgendamento(l)){
+      grouped[origin].agendamentos += 1;
+    }
+
+    if(reachedExperimental(l)){
+      grouped[origin].experimentais += 1;
+    }
+
+    if(reachedMatricula(l)){
+      grouped[origin].matriculas += 1;
+    }
+  });
+
+  originGridEl.innerHTML = "";
+  originExtraGridEl.innerHTML = "";
+
+  fixedOrder.forEach(function(name){
+    var item = grouped[name] || {
+      leads:0,
+      agendamentos:0,
+      experimentais:0,
+      matriculas:0
+    };
+
+    var leads = item.leads || 0;
+    var ags = item.agendamentos || 0;
+    var exps = item.experimentais || 0;
+    var mats = item.matriculas || 0;
+
+    var leadToAgConv = leads > 0 ? Math.round((ags / leads) * 100) : 0;
+    var expToMatConv = exps > 0 ? Math.round((mats / exps) * 100) : 0;
+
+    originGridEl.appendChild(
+      buildOriginCard(name, leads, ags, exps, mats, leadToAgConv, expToMatConv, false)
+    );
+  });
+
+  Object.keys(grouped).forEach(function(name){
+    if(fixedOrder.indexOf(name) !== -1) return;
+
+    var item = grouped[name];
+    var leads = item.leads || 0;
+    if(leads <= 0) return;
+
+    var ags = item.agendamentos || 0;
+    var exps = item.experimentais || 0;
+    var mats = item.matriculas || 0;
+
+    var leadToAgConv = leads > 0 ? Math.round((ags / leads) * 100) : 0;
+    var expToMatConv = exps > 0 ? Math.round((mats / exps) * 100) : 0;
+
+    originExtraGridEl.appendChild(
+  buildOriginCard(name, leads, ags, exps, mats, leadToAgConv, expToMatConv, true)
+);
+  });
+}
+
+
+function getActivationMetrics(){
+  var leads = Array.isArray(state.leads) ? state.leads : [];
+  var stages = Array.isArray(state.stages) ? state.stages : [];
+
+  function getStageNameById(stageId){
+    var st = stages.find(function(s){ return s.id === stageId; });
+    return st ? st.name : "";
+  }
+
+  function daysBetween(startIso, endIso){
+    if(!startIso || !endIso) return null;
+
+    var start = new Date(startIso);
+    var end = new Date(endIso);
+
+    if(isNaN(start.getTime()) || isNaN(end.getTime())) return null;
+
+    return (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+  }
+
+  function formatOneDecimal(n){
+    var num = Number(n || 0);
+    if(!isFinite(num)) num = 0;
+    return num.toLocaleString("pt-BR", {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1
+    });
+  }
+
+  function sortRowsDesc(rows){
+    return rows.sort(function(a,b){ return b.value - a.value; });
+  }
+
+  var baseAtivacao = leads.filter(function(l){
+    return l.stageId === "stage-ativacao";
+  }).length;
+
+  var tentativasRealizadas = leads.reduce(function(acc, l){
+    return acc + safeNum(l.reativacaoTentativas, 0);
+  }, 0);
+
+  var recuperados = leads.filter(function(l){
+    return !!l.activationRecovered;
+  });
+
+  var matriculasRecuperadas = leads.filter(function(l){
+    return !!l.activationConverted;
+  });
+
+  var somaTentativasRecuperados = recuperados.reduce(function(acc, l){
+    return acc + safeNum(l.activationAttemptsAtRecovery, 0);
+  }, 0);
+
+  var tentativasMedias = recuperados.length
+    ? (somaTentativasRecuperados / recuperados.length)
+    : 0;
+
+  var temposRecuperacao = recuperados
+    .map(function(l){
+      return daysBetween(l.activationEnteredAt, l.activationRecoveredAt);
+    })
+    .filter(function(v){
+      return v != null && isFinite(v) && v >= 0;
+    });
+
+  var tempoMedioRecuperacao = temposRecuperacao.length
+    ? (temposRecuperacao.reduce(function(acc, v){ return acc + v; }, 0) / temposRecuperacao.length)
+    : 0;
+
+  var recuperacaoPorFase = {};
+  recuperados.forEach(function(l){
+    var key = String(l.previousStageBeforeActivation || "Sem origem");
+    recuperacaoPorFase[key] = (recuperacaoPorFase[key] || 0) + 1;
+  });
+
+  var melhorFaseId = "";
+  var melhorFaseQtd = 0;
+
+  Object.keys(recuperacaoPorFase).forEach(function(stageId){
+    var qtd = recuperacaoPorFase[stageId];
+    if(qtd > melhorFaseQtd){
+      melhorFaseQtd = qtd;
+      melhorFaseId = stageId;
+    }
+  });
+
+  var melhorFase = melhorFaseId
+    ? (getStageNameById(melhorFaseId) || melhorFaseId)
+    : "—";
+
+  var recoveryByStageRows = sortRowsDesc(
+    Object.keys(recuperacaoPorFase).map(function(stageId){
+      return {
+        key: stageId,
+        label: getStageNameById(stageId) || stageId || "Sem origem",
+        value: recuperacaoPorFase[stageId]
+      };
+    })
+  );
+
+  var attemptsBuckets = {
+    "Tentativa 1": 0,
+    "Tentativa 2": 0,
+    "Tentativa 3+": 0
+  };
+
+  recuperados.forEach(function(l){
+    var attempts = safeNum(l.activationAttemptsAtRecovery, 0);
+    if(attempts <= 1){
+      attemptsBuckets["Tentativa 1"] += 1;
+    }else if(attempts === 2){
+      attemptsBuckets["Tentativa 2"] += 1;
+    }else{
+      attemptsBuckets["Tentativa 3+"] += 1;
+    }
+  });
+
+  var attemptsRows = sortRowsDesc(
+    Object.keys(attemptsBuckets).map(function(label){
+      return {
+        key: label,
+        label: label,
+        value: attemptsBuckets[label]
+      };
+    })
+  );
+
+  var timeBuckets = {
+    "Até 7 dias": 0,
+    "8–15 dias": 0,
+    "16–30 dias": 0,
+    "30+ dias": 0
+  };
+
+  temposRecuperacao.forEach(function(days){
+    if(days <= 7){
+      timeBuckets["Até 7 dias"] += 1;
+    }else if(days <= 15){
+      timeBuckets["8–15 dias"] += 1;
+    }else if(days <= 30){
+      timeBuckets["16–30 dias"] += 1;
+    }else{
+      timeBuckets["30+ dias"] += 1;
+    }
+  });
+
+  var timeRows = sortRowsDesc(
+    Object.keys(timeBuckets).map(function(label){
+      return {
+        key: label,
+        label: label,
+        value: timeBuckets[label]
+      };
+    })
+  );
+
+  var valorRecuperado = matriculasRecuperadas.reduce(function(acc, l){
+    return acc + parseNumber(l.value || 0);
+  }, 0);
+
+  var ticketMedioRecuperado = matriculasRecuperadas.length
+    ? (valorRecuperado / matriculasRecuperadas.length)
+    : 0;
+
+  return {
+    baseAtivacao: baseAtivacao,
+    tentativasRealizadas: tentativasRealizadas,
+    leadsRecuperados: recuperados.length,
+    matriculasRecuperadas: matriculasRecuperadas.length,
+    tentativasMedias: tentativasMedias,
+    tentativasMediasLabel: formatOneDecimal(tentativasMedias),
+    tempoMedioRecuperacao: tempoMedioRecuperacao,
+    tempoMedioRecuperacaoLabel: Math.round(tempoMedioRecuperacao) + " dias",
+    melhorFase: melhorFase,
+    recuperacaoPorFase: recuperacaoPorFase,
+    recoveryByStageRows: recoveryByStageRows,
+    attemptsRows: attemptsRows,
+    timeRows: timeRows,
+    valorRecuperado: valorRecuperado,
+    valorRecuperadoLabel: fmtBRL(valorRecuperado),
+    ticketMedioRecuperado: ticketMedioRecuperado,
+    ticketMedioRecuperadoLabel: fmtBRL(ticketMedioRecuperado)
+  };
+}
+function renderActivationDetailRows(container, rows, colorClass){
+  if(!container) return;
+  container.innerHTML = "";
+
+  var max = Math.max.apply(null, [1].concat(
+    (rows || []).map(function(r){ return safeNum(r.value, 0); })
+  ));
+
+  (rows || []).forEach(function(row){
+    var item=document.createElement("div");
+    item.className="activation-detail-row";
+
+    var label=document.createElement("div");
+    label.className="activation-detail-label";
+    label.textContent=row.label;
+
+    var bar=document.createElement("div");
+    bar.className="activation-detail-bar";
+
+    var fill=document.createElement("div");
+    fill.className="activation-detail-bar-fill " + colorClass;
+    fill.style.width = (safeNum(row.value,0) <= 0 ? 0 : Math.max(14, (safeNum(row.value,0) / max) * 100)) + "%";
+
+    var value=document.createElement("div");
+    value.className="activation-detail-value";
+    value.textContent=String(safeNum(row.value,0));
+
+    bar.appendChild(fill);
+    item.appendChild(label);
+    item.appendChild(bar);
+    item.appendChild(value);
+
+    container.appendChild(item);
+  });
+}
+  function renderDashboard(){
+  var activationMetrics = getActivationMetrics();
+  var sLead=getStageById("stage-lead");
+  var sAg=getStageById("stage-ag");
+  var sExp=getStageById("stage-exp");
+  var sMat=getStageById("stage-mat");
+
+  var leadColor = sLead ? sLead.color : "#d9f542";
+  var agColor   = sAg ? sAg.color   : "#f59e0b";
+  var expColor  = sExp ? sExp.color  : "#3b82f6";
+  var matColor  = sMat ? sMat.color  : "#22c55e";
+
+  if(hLead) hLead.textContent = "Leads";
+  if(hAg) hAg.textContent = "Agendamentos";
+  if(hExp) hExp.textContent = "Experimentais";
+  if(hMat) hMat.textContent = "Matrículas";
+
+  var start = startOfWeekISO(new Date());
+  var end = endOfWeekISO(new Date());
+
+  function countConfirmed(stageId){
+    var c = 0;
+    state.leads.forEach(function(l){
+      var ms = l.milestones && l.milestones[stageId];
+      if(inRange(ms, start, end)) c++;
+    });
+    return c;
+  }
+
+  var leadW = countConfirmed("stage-lead");
+  var agW   = countConfirmed("stage-ag");
+  var expW  = countConfirmed("stage-exp");
+  var matW  = countConfirmed("stage-mat");
+
+  var convAg  = leadW ? Math.round((agW / leadW) * 100) : 0;
+  var convExp = agW ? Math.round((expW / agW) * 100) : 0;
+  var convMat = expW ? Math.round((matW / expW) * 100) : 0;
+
+  mLead.textContent = String(leadW);
+  mAg.textContent = String(agW);
+  mExp.textContent = String(expW);
+  mMat.textContent = String(matW);
+
+  if(cLead) cLead.textContent = "Base";
+  if(cAg) cAg.textContent = convAg + "%";
+  if(cExp) cExp.textContent = convExp + "%";
+  if(cMat) cMat.textContent = convMat + "%";
+
+  if(accentLead) accentLead.style.background = leadColor;
+  if(accentAg) accentAg.style.background = agColor;
+  if(accentExp) accentExp.style.background = expColor;
+  if(accentMat) accentMat.style.background = matColor;
+
+  if(cLead) cLead.style.color = leadColor;
+  if(cAg) cAg.style.color = agColor;
+  if(cExp) cExp.style.color = expColor;
+  if(cMat) cMat.style.color = matColor;
+
+  if(pLead){
+    pLead.style.width = "100%";
+    pLead.style.background = leadColor;
+  }
+  if(pAg){
+    pAg.style.width = convAg + "%";
+    pAg.style.background = agColor;
+  }
+  if(pExp){
+    pExp.style.width = convExp + "%";
+    pExp.style.background = expColor;
+  }
+  if(pMat){
+    pMat.style.width = convMat + "%";
+    pMat.style.background = matColor;
+  }
+
+  var rev=0;
+  state.leads.forEach(function(l){
+    var ms = l.milestones && l.milestones["stage-mat"];
+    if(inRange(ms, start, end)){
+      var v=Number(l.value||0);
+      if(!isNaN(v)) rev+=v;
+    }
+  });
+  mRev.textContent=fmtBRL(rev);
+
+  var traffic = parseNumber(localStorage.getItem(TRAFFIC_KEY) || "0");
+  var matCount = matW || 0;
+  var cac = matCount>0 ? (traffic / matCount) : 0;
+  var roi = rev - traffic;
+
+  mCac.textContent=fmtBRL(cac);
+  mRoi.textContent=fmtBRL(roi);
+
+  var maxActivationValue = Math.max(
+    activationMetrics.baseAtivacao,
+    activationMetrics.tentativasRealizadas,
+    activationMetrics.leadsRecuperados,
+    activationMetrics.matriculasRecuperadas,
+    1
+  );
+
+  function setActivationBar(el, value){
+    if(!el) return;
+    var width = (Number(value || 0) / maxActivationValue) * 100;
+    if(!isFinite(width)) width = 0;
+    width = Math.max(18, Math.min(100, width));
+    if(Number(value || 0) <= 0) width = 0;
+    el.style.width = width + "%";
+  }
+
+  if(activationBaseEl) activationBaseEl.textContent = String(activationMetrics.baseAtivacao);
+  if(activationAttemptsEl) activationAttemptsEl.textContent = String(activationMetrics.tentativasRealizadas);
+  if(activationRecoveredEl) activationRecoveredEl.textContent = String(activationMetrics.leadsRecuperados);
+  if(activationConvertedEl) activationConvertedEl.textContent = String(activationMetrics.matriculasRecuperadas);
+
+  if(activationAvgAttemptsEl) activationAvgAttemptsEl.textContent = activationMetrics.tentativasMediasLabel;
+  if(activationAvgDaysEl) activationAvgDaysEl.textContent = activationMetrics.tempoMedioRecuperacaoLabel;
+  if(activationBestStageEl) activationBestStageEl.textContent = activationMetrics.melhorFase;
+
+  setActivationBar(activationBarBaseEl, activationMetrics.baseAtivacao);
+  setActivationBar(activationBarAttemptsEl, activationMetrics.tentativasRealizadas);
+  setActivationBar(activationBarRecoveredEl, activationMetrics.leadsRecuperados);
+  setActivationBar(activationBarConvertedEl, activationMetrics.matriculasRecuperadas);
+
+  renderActivationDetailRows(activationStageRowsEl, activationMetrics.recoveryByStageRows, "is-lime");
+  renderActivationDetailRows(activationAttemptRowsEl, activationMetrics.attemptsRows, "is-blue");
+  renderActivationDetailRows(activationTimeRowsEl, activationMetrics.timeRows, "is-purple");
+
+  if(activationValueTotalEl) activationValueTotalEl.textContent = activationMetrics.valorRecuperadoLabel;
+  if(activationValueCountEl) activationValueCountEl.textContent = activationMetrics.matriculasRecuperadas + " matrículas";
+  if(activationValueTicketEl) activationValueTicketEl.textContent = activationMetrics.ticketMedioRecuperadoLabel;
+
+  if(activationDetailsPanel && activationDetailsBtn){
+    if(
+      activationDetailsPanel.style.display !== "flex" &&
+      activationDetailsPanel.style.display !== "none"
+    ){
+      activationDetailsPanel.style.display = "none";
+      activationDetailsBtn.textContent = "Ver detalhes";
+    }
+  }
+
+  if(activationDetailsPanel && activationDetailsBtn){
+    if(
+      activationDetailsPanel.style.display !== "flex" &&
+      activationDetailsPanel.style.display !== "none"
+    ){
+      activationDetailsPanel.style.display = "none";
+      activationDetailsBtn.textContent = "Ver detalhes";
+    }
+  }
+
+  renderOriginsPanel();
+}
 
   function syncTrafficUI(){
     var v=localStorage.getItem(TRAFFIC_KEY);
@@ -1791,12 +5301,18 @@ backupBtn.addEventListener("click",function(){
 
 });
 
-  newStageBtn.addEventListener("click",addStage);
   searchInput.addEventListener("input",render);
 
-  syncTrafficUI();
+    syncTrafficUI();
   showPipeline();
   render();
+
+setInterval(function(){
+  checkMissedLessons();
+  checkExpiredClosings();
+  checkExpiredAtendimento();
+  render();
+}, 60000);
   </script>
 </body>
 </html>
